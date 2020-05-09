@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "498565900292",
+    "firebase_url": "https://gurucool-11a27.firebaseio.com",
+    "project_id": "gurucool-11a27",
+    "storage_bucket": "gurucool-11a27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498565900292:android:0be01e3a0315c78bb36d51",
+        "android_client_info": {
+          "package_name": "com.example.gurucoolv1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "498565900292-38l20pvscnj1f7329gtl4196n0tjfct5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCOaQHgWO3f8Fpy432UpbFqk4Z3IayDwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "498565900292-38l20pvscnj1f7329gtl4196n0tjfct5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
