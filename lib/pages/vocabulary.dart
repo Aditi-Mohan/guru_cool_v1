@@ -28,27 +28,37 @@ class _VocabularyState extends State<Vocabulary> {
                 FutureBuilder(
                   future: getWords(),
                   builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting ) {
+                    if(snapshot.connectionState == ConnectionState.done ) {
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index) {
+                            QueryDocumentSnapshot word = snapshot.data[index];
+                            Map<String, dynamic> data = word.data();
+
+                            return Card(
+                              elevation: 5.0,
+                              child: ListTile(
+                                title: Text(
+                                  "${word.id.toString()
+                                      .toUpperCase()}",
+                                  style: CardTileText.heading,),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("${data['pronunciation']}",
+                                      style: CardTileText.text),
+                                ),
+                                onTap: () =>
+                                    navigateToDetailPage(word),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                    else {
                       return Center(child: Text("Loading..."));
                     }
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            elevation: 5.0,
-                            child: ListTile(
-                              title: Text("${snapshot.data[index].documentID.toString().toUpperCase()}",style: CardTileText.heading,),
-                              subtitle: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("${snapshot.data[index].data['pronunciation']}", style: CardTileText.text),
-                              ),
-                              onTap: () => navigateToDetailPage(snapshot.data[index]),
-                            ),
-                          );
-                        },
-                      ),
-                    );
                   },
                 ),
               ],

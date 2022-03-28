@@ -40,18 +40,21 @@ class _RecipeArchiveState extends State<RecipeArchive> {
                     child: ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        QueryDocumentSnapshot recipe = snapshot.data[index];
+                        Map<String, dynamic> data = recipe.data();
+
                         return Card(
                           elevation: 5.0,
                           child: ListTile(
-                            title: Text("${snapshot.data[index].documentID.toString().toUpperCase()}",style: CardTileText.heading,),
+                            title: Text("${recipe.id.toString().toUpperCase()}",style: CardTileText.heading,),
                             subtitle: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text("Preperation Time: ${snapshot.data[index].data['prepTime']}", style: CardTileText.text,),
-                                Text("Difficulty Level: ${snapshot.data[index].data['level']}", style: CardTileText.text,)
+                                Text("Preperation Time: ${data['prepTime']}", style: CardTileText.text,),
+                                Text("Difficulty Level: ${data['level']}", style: CardTileText.text,)
                               ],
                             ),
-                            onTap: () => navigateToDetailPage(snapshot.data[index]),
+                            onTap: () => navigateToDetailPage(recipe),
                           ),
                         );
                       },

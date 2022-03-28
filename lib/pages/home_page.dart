@@ -76,81 +76,103 @@ class _HomePageState extends State<HomePage> {
                       child: FutureBuilder(
                         future: _question,
                         builder: (context, snapshot) {
-                          if(snapshot.connectionState == ConnectionState.waiting)
-                            return Center(
-                              child: Text("Loading..."),
-                            );
-                          else
+                          if(snapshot.connectionState == ConnectionState.done) {
+                            QueryDocumentSnapshot q = snapshot.data[0];
+                            Map<String, dynamic> data = q.data();
+
                             return Container(
                               height: 280,
                               child: Column(
-                                    children: <Widget>[
+                                children: <Widget>[
 //                                Divider(
 //                                  thickness: 3.0,
 //                                ),
-                                      ListTile(
-                                        leading: Icon(Icons.extension, size: 30,),
-                                        title: Text("Question Of The Day", style: CardTileText.questionTile,),
-                                        subtitle: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text("${snapshot.data[0].documentID}", style: ListTileText.black,),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextField(
-                                            maxLines: 5,
-                                            controller: _answer,
-                                            decoration: InputDecoration(
+                                  ListTile(
+                                    leading: Icon(Icons.extension, size: 30,),
+                                    title: Text("Question Of The Day",
+                                      style: CardTileText.questionTile,),
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "${q.id}",
+                                        style: ListTileText.black,),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextField(
+                                        maxLines: 5,
+                                        controller: _answer,
+                                        decoration: InputDecoration(
 //                                        border: OutlineInputBorder(
 //                                          borderSide: BorderSide(color: Colors.lightBlueAccent),
 //                                        ),
 //                                        errorBorder: OutlineInputBorder(
 //                                          borderSide: BorderSide(color: Colors.red),
 //                                        ),
-                                              errorText: _validate?"Answer cannot be empty":null,
-                                            ),
-                                          ),
+                                          errorText: _validate
+                                              ? "Answer cannot be empty"
+                                              : null,
                                         ),
                                       ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: RaisedButton(
-                                              color: HomepageBackground,
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Text("Submit", style: ListTileText.white,),
-                                                ],
-                                              ),
-                                              onPressed: () {
-                                                FocusScopeNode currentFocus = FocusScope.of(context);
-                                                if (!currentFocus.hasPrimaryFocus) {
-                                                  currentFocus.unfocus();
-                                                }
-                                                answer();
-                                                if(!_validate) {
-                                                  FirebaseFirestore.instance.collection('users')
-                                                      .doc('${obj.name}').collection(
-                                                      'answers').doc(
-                                                      '${snapshot.data[0].documentID}')
-                                                      .set({'answer': _answer.text});
-                                                  _answer.clear();
-                                                  _HomePage.currentState.showSnackBar(
-                                                    SnackBar(
-                                                      content: Text("Your Answer has been Submitted!", style: TextStyle(color: HomepageBackground, fontWeight: FontWeight.w600, fontSize: 20.0, fontStyle: FontStyle.italic),
-                                                      ),
-                                                    )
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                    ],
+                                    ),
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: RaisedButton(
+                                      color: HomepageBackground,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .center,
+                                        children: <Widget>[
+                                          Text("Submit",
+                                            style: ListTileText.white,),
+                                        ],
+                                      ),
+                                      onPressed: () {
+                                        FocusScopeNode currentFocus = FocusScope
+                                            .of(context);
+                                        if (!currentFocus.hasPrimaryFocus) {
+                                          currentFocus.unfocus();
+                                        }
+                                        answer();
+                                        if (!_validate) {
+                                          FirebaseFirestore.instance.collection(
+                                              'users')
+                                              .doc('${obj.name}').collection(
+                                              'answers').doc(
+                                              '${q.id}')
+                                              .set({'answer': _answer.text});
+                                          _answer.clear();
+                                          _HomePage.currentState.showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  "Your Answer has been Submitted!",
+                                                  style: TextStyle(
+                                                      color: HomepageBackground,
+                                                      fontWeight: FontWeight
+                                                          .w600,
+                                                      fontSize: 20.0,
+                                                      fontStyle: FontStyle
+                                                          .italic),
+                                                ),
+                                              )
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
                             );
+                          }
+                          else {
+                            return Center(
+                              child: Text("Loading..."),
+                            );
+                          }
                         },
                       ),
                     ),
@@ -163,17 +185,27 @@ class _HomePageState extends State<HomePage> {
                 future: _activity,
                 builder: (context, snapshot) {
                   print(snapshot.data);
-                  if(snapshot.connectionState == ConnectionState.waiting)
+                  if(snapshot.connectionState == ConnectionState.done) {
+                    QueryDocumentSnapshot task = snapshot.data[0];
+                    Map<String, dynamic> data = task.data();
+
+                    return ListTile(
+                      leading: Icon(
+                        Icons.lightbulb_outline, color: Colors.white,),
+                      title: Text("Today\'s Activity", style: AppBarText.page,),
+                      subtitle: Text("${task.id}",
+                        style: ListTileText.white,),
+                      onTap: () =>
+                          Navigator.push(context, MaterialPageRoute(builder: (
+                              context) =>
+                              DetailPageActivities(doc: task,))),
+                    );
+                  }
+                  else {
                     return Center(
                       child: Text("Loading..."),
                     );
-                  else
-                    return ListTile(
-                      leading: Icon(Icons.lightbulb_outline, color: Colors.white,),
-                      title: Text("Today\'s Activity", style: AppBarText.page,),
-                      subtitle: Text("${snapshot.data[0].documentID}", style: ListTileText.white,),
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPageActivities(doc: snapshot.data[0],))),
-                    );
+                  }
                 },
               ),
             ),

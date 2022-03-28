@@ -35,27 +35,36 @@ class _VocabularyArchiveState extends State<VocabularyArchive> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text("You haven\'t learn\'t any Words yet!", style: TextStyle(color: selectedColor, fontWeight: FontWeight.w900, fontSize: 30.0)),
                   ));
-                else
+                else {
                   return Expanded(
                     child: ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        QueryDocumentSnapshot word = snapshot.data[index];
+                        Map<String, dynamic> data = word.data();
+
                         return Card(
                           elevation: 5.0,
                           child: ListTile(
-                            title: Text("${snapshot.data[index].documentID.toString().toUpperCase()}",style: CardTileText.heading,),
+                            title: Text(
+                              "${word.id.toString()
+                                  .toUpperCase()}",
+                              style: CardTileText.heading,),
                             subtitle: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text("${snapshot.data[index].data['pronunciation']}", style: CardTileText.text,),
+                                Text("${data['pronunciation']}",
+                                  style: CardTileText.text,),
                               ],
                             ),
-                            onTap: () => navigateToDetailPage(snapshot.data[index]),
+                            onTap: () =>
+                                navigateToDetailPage(word),
                           ),
                         );
                       },
                     ),
                   );
+                }
               },
             )
           ],

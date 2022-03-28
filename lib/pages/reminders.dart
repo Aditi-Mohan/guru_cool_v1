@@ -32,76 +32,102 @@ class _ReminderState extends State<Reminder> {
             FutureBuilder(
               future: getTodaysActivity(),
               builder: (context, snapshot) {
-                if(snapshot.connectionState == ConnectionState.waiting)
-                  return Center(child: Text("Loading..."),);
-                else
+                if(snapshot.connectionState == ConnectionState.done) {
+                  QueryDocumentSnapshot doc = snapshot.data[0];
+                  Map<String, dynamic> data = doc.data();
                   return Card(
                     elevation: 5.0,
                     child: ListTile(
-                      title: Text("Today\'s Activity", style: CardTileText.heading,),
-                      subtitle: Text("${snapshot.data[0].documentID}", style: CardTileText.text,),
-                      onTap: () => navigateToDetailPage(snapshot.data[0]),
+                      title: Text(
+                        "Today\'s Activity", style: CardTileText.heading,),
+                      subtitle: Text("${doc.id}",
+                        style: CardTileText.text,),
+                      onTap: () => navigateToDetailPage(doc),
                     ),
                   );
+                }
+                else {
+                  return Center(child: Text("Loading..."),);
+                }
               },
             ),
             FutureBuilder(
               future: getReminders(),
               builder: (context, snapshot) {
-                if(snapshot.connectionState == ConnectionState.waiting ) {
+                if(snapshot.connectionState == ConnectionState.done ) {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        QueryDocumentSnapshot reminder = snapshot.data[index];
+                        Map<String, dynamic> data = reminder.data();
+
+                        return Card(
+                          elevation: 5.0,
+                          child: ExpansionTile(
+                            leading: Icon(Icons.alarm),
+                            title: Text(
+                              "${reminder.id.toString()
+                                  .toUpperCase()}",
+                              style: CardTileText.heading,),
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text("${data['description']}",
+                                      style: CardTileText.text,),
+                                  ),
+                                  FlatButton(
+                                    child: Text("Done"),
+                                    onPressed: () async {
+                                      int currCount = 0;
+                                      DocumentSnapshot doc = await FirebaseFirestore
+                                          .instance.collection('users').doc(
+                                          '${obj.name}').collection(
+                                          'DailyTasks')
+                                          .doc(
+                                          '${reminder.id}')
+                                          .get();
+                                      if (doc.exists) {
+                                        Map<String, dynamic> data = doc.data();
+                                        currCount += data['count'];
+                                        FirebaseFirestore.instance.collection(
+                                            'users').doc(
+                                            '${obj.name}')
+                                            .collection('DailyTasks')
+                                            .doc('${reminder.id}')
+                                            .set({'count': currCount + 1});
+                                      }
+                                      else
+                                        FirebaseFirestore.instance.collection(
+                                            'users').doc(
+                                            '${obj.name}')
+                                            .collection('DailyTasks')
+                                            .doc('${reminder.id}')
+                                            .set({'count': currCount + 1});
+                                      _Reminder.currentState.showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              "Task Completed, Well Done!",
+                                              style: TextStyle(
+                                                  color: ReminderBackground),),
+                                          )
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }
+                else {
                   return Center(child: Text("Loading..."));
                 }
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        elevation: 5.0,
-                        child: ExpansionTile(
-                          leading: Icon(Icons.alarm),
-                          title: Text("${snapshot.data[index].documentID.toString().toUpperCase()}",style: CardTileText.heading,),
-                          children: <Widget>[
-                                Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("${snapshot.data[index].data['description']}", style: CardTileText.text,),
-                                    ),
-                                    FlatButton(
-                                      child: Text("Done"),
-                                      onPressed: () async {
-                                        int currCount = 0;
-                                        DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc('${obj.name}').collection('DailyTasks').doc('${snapshot.data[index].documentID}').get();
-                                        if(doc.exists) {
-                                          Map<String, dynamic> data = doc.data();
-                                          currCount += data['count'];
-                                          FirebaseFirestore.instance.collection('users').doc(
-                                              '${obj.name}')
-                                              .collection('DailyTasks')
-                                              .doc('${snapshot.data[index].documentID}')
-                                              .set({'count': currCount + 1});
-                                        }
-                                        else
-                                          FirebaseFirestore.instance.collection('users').doc(
-                                              '${obj.name}')
-                                              .collection('DailyTasks')
-                                              .doc('${snapshot.data[index].documentID}')
-                                              .set({'count': currCount + 1});
-                                        _Reminder.currentState.showSnackBar(
-                                            SnackBar(
-                                              content: Text("Task Completed, Well Done!", style: TextStyle(color: ReminderBackground),),
-                                            )
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                );
               },
             ),
           ],

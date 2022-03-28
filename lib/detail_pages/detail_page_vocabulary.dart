@@ -73,7 +73,7 @@ class _DetailPageVocabularyState extends State<DetailPageVocabulary> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            FirebaseFirestore.instance.collection('users').doc('${obj.name}').collection('vocabulary').doc('${widget.doc.id}').set({'inasentence': data['inasentence'], 'pronounciation': data['pronounciation'], 'word': data['word'], 'meaning': data['meaning']});
+            FirebaseFirestore.instance.collection('users').doc('${obj.name}').collection('vocabulary').doc('${widget.doc.id}').set({'inasentence': data['inasentence'], 'pronunciation': data['pronunciation'], 'word': data['word'], 'meaning': data['meaning']});
             _detailPageVocabulary.currentState.showSnackBar(
               SnackBar(
                 content: Container(

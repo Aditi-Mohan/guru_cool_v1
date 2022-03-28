@@ -30,30 +30,46 @@ class _RecipesState extends State<Recipes> {
             FutureBuilder(
               future: getRecipes(),
               builder: (context, snapshot) {
-                if(snapshot.connectionState == ConnectionState.waiting ) {
+                if(snapshot.connectionState == ConnectionState.done ) {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        QueryDocumentSnapshot recipe = snapshot.data[index];
+                        Map<String, dynamic> data = recipe.data();
+
+                        return Card(
+                          elevation: 5.0,
+                          child: ListTile(
+                            title: Text(
+                              "${recipe.id.toString()
+                                  .toUpperCase()}",
+                              style: CardTileText.heading,),
+                            subtitle: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.alarm, size: 18, color: ReminderBackground,),
+                                    Text(" ${data['prepTime']}",
+                                      style: CardTileText.text,),
+                                  ],
+                                ),
+                                Text("Difficulty Level: ${data['level']}", style: CardTileText.text,)
+                              ],
+                            ),
+                            onTap: () =>
+                                navigateToDetailPage(recipe),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }
+                else {
                   return Center(child: Text("Loading..."));
                 }
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        elevation: 5.0,
-                        child: ListTile(
-                          title: Text("${snapshot.data[index].documentID.toString().toUpperCase()}",style: CardTileText.heading,),
-                          subtitle: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text("Preperation Time: ${snapshot.data[index].data['prepTime']}", style: CardTileText.text,),
-                              Text("Difficulty Level: ${snapshot.data[index].data['level']}", style: CardTileText.text,)
-                            ],
-                          ),
-                          onTap: () => navigateToDetailPage(snapshot.data[index]),
-                        ),
-                      );
-                      },
-                  ),
-                );
               },
             ),
           ],

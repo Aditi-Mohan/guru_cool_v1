@@ -40,17 +40,20 @@ class _ActivityArchiveState extends State<ActivityArchive> {
                     child: ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        QueryDocumentSnapshot activity = snapshot.data[index];
+                        Map<String, dynamic> data = activity.data();
+
                         return Card(
                           elevation: 5.0,
                           child: ListTile(
-                            title: Text("${snapshot.data[index].documentID.toString().toUpperCase()}",style: CardTileText.heading,),
+                            title: Text("${activity.id.toString().toUpperCase()}",style: CardTileText.heading,),
                             subtitle: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text("${snapshot.data[index].data['description']}", style: CardTileText.text,),
+                                Text("${data['description']}", style: CardTileText.text,),
                               ],
                             ),
-                            onTap: () => navigateToDetailPage(snapshot.data[index]),
+                            onTap: () => navigateToDetailPage(activity),
                           ),
                         );
                       },
