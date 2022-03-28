@@ -19,6 +19,7 @@ class _ActivityArchiveState extends State<ActivityArchive> {
       appBar: AppBar(
         title: Text("ACTIVITY ARCHIVE", style: AppBarText.page,),
         backgroundColor: ActivityBackground,
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 4.0),
@@ -43,11 +44,14 @@ class _ActivityArchiveState extends State<ActivityArchive> {
                       itemCount: archive.length,
                       itemBuilder: (context, index) {
                         return Card(
-                          elevation: 5.0,
+                          elevation: 1.0,
+//                          color: ActivityBackgroundLight,
                           child: ListTile(
                             title: Text(
                               archive[index].name.toString().toUpperCase(),
-                              style: CardTileText.heading,),
+//                              style: CardTileText.heading.copyWith(color: Colors.white),
+                              style: CardTileText.heading,
+                              ),
                             subtitle: Text(archive[index].description,
                               style: CardTileText.text,),
                             onTap: () => navigateToDetailPage(archive[index], true),

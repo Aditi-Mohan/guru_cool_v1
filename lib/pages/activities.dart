@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '/models/activity.dart';
 import '/commons/collapsing_navigation_drawer.dart';
@@ -59,9 +60,42 @@ class _ActivitiesState extends State<Activities> {
                     child: ListView.builder(
                       itemCount: activities.length,
                       itemBuilder: (context, index) {
+                        Widget tile = Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                border: Border.all(color: arcMap[activities[index].id] ? ActivityBackgroundLight : ActivityBackground, width: 3)
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 18.0),
+                                    child: Container(
+                                        child: Text(activities[index].name.toUpperCase(), style: CardTileText.heading.copyWith(color: Colors.white),)),
+                                  ),
+                                  color: arcMap[activities[index].id] ? ActivityBackgroundLight : ActivityBackground,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+                                  child: Container(
+                                    child: Text(activities[index].description, style: CardTileText.text,),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+//                        return tile;
                         return Card(
-                          color: ActivityBackgroundLight,
-                          elevation: 5.0,
+                          color: arcMap[activities[index].id] ? ActivityBackgroundLight : ActivityBackground,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                          elevation: arcMap[activities[index].id] ? 0 : 5,
                           child: ListTile(
                             title: Text(activities[index].name.toUpperCase(),style: CardTileText.heading.copyWith(color: Colors.white),),
                             subtitle: Padding(

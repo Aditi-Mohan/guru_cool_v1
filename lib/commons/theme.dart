@@ -52,6 +52,6 @@ class AppBarText {
 }
 
 class DetailPageText {
-  static const TextStyle content = TextStyle(color: Color.fromRGBO(50, 64, 54, 1), fontWeight: FontWeight.w600);
-  static const TextStyle sidePanel = TextStyle(color: Color.fromRGBO(50, 64, 54, 1), fontWeight: FontWeight.w600, fontStyle: FontStyle.italic);
+  static const TextStyle content = TextStyle(color: Color.fromRGBO(50, 64, 54, 1), fontSize: 16, fontWeight: FontWeight.w600);
+  static const TextStyle sidePanel = TextStyle(color: Color.fromRGBO(50, 64, 54, 1), fontSize: 18, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic);
 }
