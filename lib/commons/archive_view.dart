@@ -12,12 +12,19 @@ class _ArchiveViewState extends State<ArchiveView> {
   int curr = 0;
 
   @override
+  void initState() {
+    curr = 1;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      height: 275,
+      height: 250,
       child: PageView.builder(
           itemCount: archives.length,
-          controller: PageController(viewportFraction: 0.69),
+          controller: PageController(viewportFraction: 0.75),
+//          padEnds: false,
           onPageChanged: (counter) {
             setState(() {
               curr = counter;
@@ -27,6 +34,7 @@ class _ArchiveViewState extends State<ArchiveView> {
             return Transform.scale(
               scale: curr == counter?0.9:0.8,
               child: Card(
+                shadowColor: HomepageBackground,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                 elevation: curr == counter?10.0:3.0,
                 semanticContainer: true,

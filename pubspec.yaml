@@ -52,6 +52,7 @@ flutter:
     - assets/point1.png
     - assets/point2.png
     - assets/point3.png
+    - assets/scenery.png
 
   fonts:
     - family: Amatic

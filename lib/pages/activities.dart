@@ -41,8 +41,12 @@ class _ActivitiesState extends State<Activities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ActivityBackgroundLight,
-      appBar: AppBar(backgroundColor: ActivityBackground, title: Text("ACTIVITIES", style: AppBarText.page,)),
+//      backgroundColor: ActivityBackgroundLight,
+      appBar: AppBar(
+          backgroundColor: ActivityBackground,
+          title: Text("ACTIVITIES", style: AppBarText.page,),
+        elevation: 0,
+      ),
       drawer: CollapsingNavigationDrawer(currSelected: currSelectedCollapsingNavBar),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 4.0),
@@ -56,9 +60,10 @@ class _ActivitiesState extends State<Activities> {
                       itemCount: activities.length,
                       itemBuilder: (context, index) {
                         return Card(
+                          color: ActivityBackgroundLight,
                           elevation: 5.0,
                           child: ListTile(
-                            title: Text(activities[index].name.toUpperCase(),style: CardTileText.heading,),
+                            title: Text(activities[index].name.toUpperCase(),style: CardTileText.heading.copyWith(color: Colors.white),),
                             subtitle: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(activities[index].description, style: CardTileText.text,),

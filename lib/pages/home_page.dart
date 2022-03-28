@@ -166,8 +166,26 @@ class _HomePageState extends State<HomePage> {
                             );
                           }
                           else {
-                            return Center(
-                              child: Text("Loading..."),
+                            return Container(
+                              height: 280,
+                              child: Column(
+                                  children: <Widget>[
+//                                Divider(
+//                                  thickness: 3.0,
+//                                ),
+                                    ListTile(
+                                      leading: Icon(Icons.extension, size: 30,),
+                                      title: Text("Question Of The Day",
+                                        style: CardTileText.questionTile,),
+                                      subtitle: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Loading...",
+                                          style: ListTileText.black,),
+                                      ),
+                                    ),
+                                  ]
+                              )
                             );
                           }
                         },
@@ -197,8 +215,12 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
                   else {
-                    return Center(
-                      child: Text("Loading..."),
+                    return ListTile(
+                      leading: Icon(
+                        Icons.lightbulb_outline, color: Colors.white,),
+                      title: Text("Loading...", style: AppBarText.page,),
+                      subtitle: Text(" ",
+                        style: ListTileText.white,),
                     );
                   }
                 },

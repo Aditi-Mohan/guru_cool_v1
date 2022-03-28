@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 
 Color defColor = Colors.white70;
 Color drawerBackgroundColor = Color.fromRGBO(66, 177, 237, 1);
+Color drawerBackgroundLight = Color.fromRGBO(135, 214, 230, 1);
 Color cardTileDefaultColor = Color.fromRGBO(255, 252, 168, 1);
 Color selectedColor = Color.fromRGBO(50, 64, 54, 1);
 Color RecipeBackground = Color.fromRGBO(255, 185, 20, 1);
@@ -35,6 +36,7 @@ Color VocabularyBackgroundLight = Color.fromRGBO(156, 255, 159, 1);
 class ListTileText {
   static const TextStyle white = TextStyle(color: Colors.white70, fontSize: 15.0, fontWeight: FontWeight.w600);
   static const TextStyle black = TextStyle(color: Colors.black87, fontSize: 15.0, fontWeight: FontWeight.w600);
+  static const TextStyle blue = TextStyle(color: Color.fromRGBO(66, 177, 237, 1), fontSize: 15.0, fontWeight: FontWeight.w600);
   static const TextStyle selected = TextStyle(color: Colors.white, fontSize: 15.0, fontWeight: FontWeight.w600);
 }
 

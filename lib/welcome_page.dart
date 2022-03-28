@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
-
+import 'pages/new_homepage.dart';
 import 'commons/user.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -60,7 +60,8 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
                 onPressed: () {
                   obj = new User.isLoggedIn();
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage(showSnackBarOnEntry: true,)), (Route<dynamic> route) => false);
+//                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage(showSnackBarOnEntry: true,)), (Route<dynamic> route) => false);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NewHomePage(showSnackBarOnEntry: true,)), (Route<dynamic> route) => false);
                 },
               ),
             )
