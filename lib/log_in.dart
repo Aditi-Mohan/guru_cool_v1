@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/pages/home_page.dart';
-import 'package:gurucoolv1/commons/user.dart';
+import 'pages/home_page.dart';
+import 'commons/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -13,7 +13,7 @@ class LogInPage extends StatefulWidget {
 
 class _LogInPageState extends State<LogInPage> {
 
-  final FirebaseMessaging msg = FirebaseMessaging();
+  final FirebaseMessaging msg = FirebaseMessaging.instance;
 
   TextEditingController _name = TextEditingController();
   String token;
@@ -96,20 +96,20 @@ class _LogInPageState extends State<LogInPage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           if(_name.text.isNotEmpty) {
-            Firestore.instance.collection('users')
-                .document('${_name.text}')
-                .setData({'name': '${_name.text}'});
-            Firestore.instance.collection('tokens')
-                .document('${_name.text}')
+            FirebaseFirestore.instance.collection('users')
+                .doc('${_name.text}')
+                .set({'name': '${_name.text}'});
+            FirebaseFirestore.instance.collection('tokens')
+                .doc('${_name.text}')
                 .get()
                 .then((docSnapshot) =>
             {
               _createToken = !docSnapshot.exists
             });
             if (_createToken)
-              Firestore.instance.collection('tokens')
-                  .document('${_name.text}')
-                  .setData({'devToken': '$token'});
+              FirebaseFirestore.instance.collection('tokens')
+                  .doc('${_name.text}')
+                  .set({'devToken': '$token'});
             SharedPreferences pref = await SharedPreferences.getInstance();
             pref.setBool('isLoggedIn', true);
             pref.setString('name', _name.text);

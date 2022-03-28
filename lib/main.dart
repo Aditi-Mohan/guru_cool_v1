@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/pages/home_page.dart';
-import 'package:gurucoolv1/log_in.dart';
-import 'package:gurucoolv1/welcome_page.dart';
+import 'pages/home_page.dart';
+import 'log_in.dart';
+import '/welcome_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gurucoolv1/commons/user.dart';
+import 'commons/user.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -67,4 +72,8 @@ class _DemoPageState extends State<DemoPage> {
   }
 }
 
-
+//
+// Fixed depricated Android Embedding
+// Fixed outdated platform package error
+// Converted all Firebase statement to be compatible with the latest package
+// Updated kotlin gradle version

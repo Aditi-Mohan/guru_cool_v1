@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/collapsing_navigation_drawer.dart';
-import 'package:gurucoolv1/commons/theme.dart';
-import 'package:gurucoolv1/detail_pages/detail_page_activities.dart';
+import '/commons/collapsing_navigation_drawer.dart';
+import '/commons/theme.dart';
+import '/detail_pages/detail_page_activities.dart';
 
 class AboutPage extends StatefulWidget {
   @override

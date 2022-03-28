@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/theme.dart';
-import 'package:gurucoolv1/commons/user.dart';
-import 'package:gurucoolv1/detail_pages/detail_page_activities.dart';
+import '/commons/theme.dart';
+import '/commons/user.dart';
+import '/detail_pages/detail_page_activities.dart';
 
 class ActivityArchive extends StatefulWidget {
 
@@ -65,9 +65,9 @@ class _ActivityArchiveState extends State<ActivityArchive> {
   }
 
   Future getRecipes() async {
-    var fire = Firestore.instance;
-    QuerySnapshot qs = await fire.collection('users').document('${obj.name}').collection('activities').getDocuments();
-    return qs.documents;
+    var fire = FirebaseFirestore.instance;
+    QuerySnapshot qs = await fire.collection('users').doc('${obj.name}').collection('activities').get();
+    return qs.docs;
   }
 
   void navigateToDetailPage(DocumentSnapshot documentSnapshot) {

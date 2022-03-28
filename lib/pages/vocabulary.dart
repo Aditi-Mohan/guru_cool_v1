@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/collapsing_navigation_drawer.dart';
-import 'package:gurucoolv1/commons/theme.dart';
-import 'package:gurucoolv1/detail_pages/detail_page_vocabulary.dart';
+import '/commons/collapsing_navigation_drawer.dart';
+import '/commons/theme.dart';
+import '/detail_pages/detail_page_vocabulary.dart';
 
 
 class Vocabulary extends StatefulWidget {
@@ -58,9 +58,9 @@ class _VocabularyState extends State<Vocabulary> {
   }
   
   Future getWords() async {
-    var fire = Firestore.instance;
-    QuerySnapshot qs = await fire.collection('Vocabulary').getDocuments();
-    return qs.documents;
+    var fire = FirebaseFirestore.instance;
+    QuerySnapshot qs = await fire.collection('Vocabulary').get();
+    return qs.docs;
   }
 
   void navigateToDetailPage(DocumentSnapshot documentSnapshot) {

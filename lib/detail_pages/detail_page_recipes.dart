@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/theme.dart';
-import 'package:gurucoolv1/commons/user.dart';
-import 'package:gurucoolv1/pages/recipe_archive.dart';
+import '/commons/theme.dart';
+import '/commons/user.dart';
+import '/pages/recipe_archive.dart';
 
 class DetailPageRecipes extends StatefulWidget {
 
@@ -21,10 +21,12 @@ class _DetailPageRecipesState extends State<DetailPageRecipes> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> data = widget.doc.data() as Map<String, dynamic>;
+
     return Scaffold(
       key: _detailPageRecipes,
       appBar: AppBar(
-        title: Text("${widget.doc.data['name'].toString().toUpperCase()}", style: AppBarText.detailPage,),
+        title: Text("${data['name'].toString().toUpperCase()}", style: AppBarText.detailPage,),
         backgroundColor: RecipeBackground,
       ),
       body: Card(
@@ -46,12 +48,12 @@ class _DetailPageRecipesState extends State<DetailPageRecipes> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Preperation Time: ${widget.doc.data['prepTime']}", style: DetailPageText.sidePanel,),
+                      Text("Preperation Time: ${data['prepTime']}", style: DetailPageText.sidePanel,),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Divider(thickness: 3.0, color: Colors.black38,),
                       ),
-                      Text("Difficulty Level: ${widget.doc.data['level']}", style: DetailPageText.sidePanel,),
+                      Text("Difficulty Level: ${data['level']}", style: DetailPageText.sidePanel,),
                     ],
                   ),
                 ),
@@ -61,7 +63,7 @@ class _DetailPageRecipesState extends State<DetailPageRecipes> {
                 child: SingleChildScrollView(
                     child:Container(
                       width: MediaQuery.of(context).size.width - 200,
-                      child: Text("${widget.doc.data['recp']}", style: DetailPageText.content,)
+                      child: Text("${data['recp']}", style: DetailPageText.content,)
                     )
                 ),
               )
@@ -71,7 +73,7 @@ class _DetailPageRecipesState extends State<DetailPageRecipes> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Firestore.instance.collection('users').document('${obj.name}').collection('recipes').document('${widget.doc.documentID}').setData({'name': widget.doc.data['name'], 'recp': widget.doc.data['recp'], 'prepTime': widget.doc.data['prepTime'], 'level': widget.doc.data['level']});
+            FirebaseFirestore.instance.collection('users').doc('${obj.name}').collection('recipes').doc('${widget.doc.id}').set({'name': data['name'], 'recp': data['recp'], 'prepTime': data['prepTime'], 'level': data['level']});
             _detailPageRecipes.currentState.showSnackBar(
               SnackBar(
                 content: Container(
@@ -124,11 +126,14 @@ class DetailPageRecipeArchive extends StatefulWidget {
 }
 
 class _DetailPageRecipeArchiveState extends State<DetailPageRecipeArchive> {
+
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> data = widget.doc.data() as Map<String, dynamic>;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.doc.data['name'].toString().toUpperCase()}", style: AppBarText.detailPage,),
+        title: Text("${data['name'].toString().toUpperCase()}", style: AppBarText.detailPage,),
         backgroundColor: RecipeBackground,
       ),
       body: Card(
@@ -150,12 +155,12 @@ class _DetailPageRecipeArchiveState extends State<DetailPageRecipeArchive> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("Preperation Time: ${widget.doc.data['prepTime']}", style: DetailPageText.sidePanel,),
+                        Text("Preperation Time: ${data['prepTime']}", style: DetailPageText.sidePanel,),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Divider(thickness: 3.0, color: Colors.black38,),
                         ),
-                        Text("Difficulty Level: ${widget.doc.data['level']}", style: DetailPageText.sidePanel,),
+                        Text("Difficulty Level: ${data['level']}", style: DetailPageText.sidePanel,),
                       ],
                     ),
                   ),
@@ -165,7 +170,7 @@ class _DetailPageRecipeArchiveState extends State<DetailPageRecipeArchive> {
                   child: SingleChildScrollView(
                       child:Container(
                         width: MediaQuery.of(context).size.width - 200,
-                        child: Text("${widget.doc.data['recp']}", style: DetailPageText.content,),
+                        child: Text("${data['recp']}", style: DetailPageText.content,),
                       )
                   ),
                 )

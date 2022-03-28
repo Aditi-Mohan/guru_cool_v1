@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/collapsing_navigation_drawer.dart';
-import 'package:gurucoolv1/commons/theme.dart';
-import 'package:gurucoolv1/commons/user.dart';
-import 'package:gurucoolv1/detail_pages/detail_page_activities.dart';
+import '/commons/collapsing_navigation_drawer.dart';
+import '/commons/theme.dart';
+import '/commons/user.dart';
+import '/detail_pages/detail_page_activities.dart';
 
 class Reminder extends StatefulWidget {
 
@@ -71,21 +71,22 @@ class _ReminderState extends State<Reminder> {
                                       child: Text("Done"),
                                       onPressed: () async {
                                         int currCount = 0;
-                                        DocumentSnapshot doc = await Firestore.instance.collection('users').document('${obj.name}').collection('DailyTasks').document('${snapshot.data[index].documentID}').get();
+                                        DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc('${obj.name}').collection('DailyTasks').doc('${snapshot.data[index].documentID}').get();
                                         if(doc.exists) {
-                                          currCount += doc.data['count'];
-                                          Firestore.instance.collection('users').document(
+                                          Map<String, dynamic> data = doc.data();
+                                          currCount += data['count'];
+                                          FirebaseFirestore.instance.collection('users').doc(
                                               '${obj.name}')
                                               .collection('DailyTasks')
-                                              .document('${snapshot.data[index].documentID}')
-                                              .setData({'count': currCount + 1});
+                                              .doc('${snapshot.data[index].documentID}')
+                                              .set({'count': currCount + 1});
                                         }
                                         else
-                                          Firestore.instance.collection('users').document(
+                                          FirebaseFirestore.instance.collection('users').doc(
                                               '${obj.name}')
                                               .collection('DailyTasks')
-                                              .document('${snapshot.data[index].documentID}')
-                                              .setData({'count': currCount + 1});
+                                              .doc('${snapshot.data[index].documentID}')
+                                              .set({'count': currCount + 1});
                                         _Reminder.currentState.showSnackBar(
                                             SnackBar(
                                               content: Text("Task Completed, Well Done!", style: TextStyle(color: ReminderBackground),),
@@ -110,15 +111,15 @@ class _ReminderState extends State<Reminder> {
   }
 
   Future getReminders() async {
-    var fire = Firestore.instance;
-    QuerySnapshot qs = await fire.collection('Reminders').getDocuments();
-    return qs.documents;
+    var fire = FirebaseFirestore.instance;
+    QuerySnapshot qs = await fire.collection('Reminders').get();
+    return qs.docs;
   }
 
   Future getTodaysActivity() async {
-  var fire = Firestore.instance;
-  QuerySnapshot qs = await fire.collection('Today\'sActivity').getDocuments();
-  return qs.documents;
+  var fire = FirebaseFirestore.instance;
+  QuerySnapshot qs = await fire.collection('Today\'sActivity').get();
+  return qs.docs;
   }
 
   void navigateToDetailPage(DocumentSnapshot documentSnapshot) {

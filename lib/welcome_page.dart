@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/pages/home_page.dart';
+import 'pages/home_page.dart';
 
 import 'commons/user.dart';
 

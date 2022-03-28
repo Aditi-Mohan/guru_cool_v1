@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/collapsing_navigation_drawer.dart';
-import 'package:gurucoolv1/commons/theme.dart';
-import 'package:gurucoolv1/commons/user.dart';
-import 'package:gurucoolv1/log_in.dart';
+import '/commons/collapsing_navigation_drawer.dart';
+import '/commons/theme.dart';
+import '/commons/user.dart';
+import '/log_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {

@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/collapsing_navigation_drawer.dart';
-import 'package:gurucoolv1/commons/theme.dart';
-import 'package:gurucoolv1/detail_pages/detail_page_activities.dart';
+import '/commons/collapsing_navigation_drawer.dart';
+import '/commons/theme.dart';
+import '/detail_pages/detail_page_activities.dart';
 
 class Activities extends StatefulWidget {
-
   @override
   _ActivitiesState createState() => _ActivitiesState();
 }
@@ -55,9 +53,9 @@ class _ActivitiesState extends State<Activities> {
   }
 
   Future getActivities() async {
-    var fire = Firestore.instance;
-    QuerySnapshot qs = await fire.collection('Activities').getDocuments();
-    return qs.documents;
+    var fire = FirebaseFirestore.instance;
+    QuerySnapshot qs = await fire.collection('Activities').get();
+    return qs.docs;
   }
 
   void navigateToDetailPage( DocumentSnapshot documentSnapshot) {

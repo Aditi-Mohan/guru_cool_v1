@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/archive_view.dart';
-import 'package:gurucoolv1/commons/collapsing_navigation_drawer.dart';
-import 'package:gurucoolv1/commons/theme.dart';
-import 'package:gurucoolv1/commons/user.dart';
-import 'package:gurucoolv1/detail_pages/detail_page_activities.dart';
+import '/commons/archive_view.dart';
+import '/commons/collapsing_navigation_drawer.dart';
+import '/commons/theme.dart';
+import '/commons/user.dart';
+import '/detail_pages/detail_page_activities.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -132,11 +132,11 @@ class _HomePageState extends State<HomePage> {
                                                 }
                                                 answer();
                                                 if(!_validate) {
-                                                  Firestore.instance.collection('users')
-                                                      .document('${obj.name}').collection(
-                                                      'answers').document(
+                                                  FirebaseFirestore.instance.collection('users')
+                                                      .doc('${obj.name}').collection(
+                                                      'answers').doc(
                                                       '${snapshot.data[0].documentID}')
-                                                      .setData({'answer': _answer.text});
+                                                      .set({'answer': _answer.text});
                                                   _answer.clear();
                                                   _HomePage.currentState.showSnackBar(
                                                     SnackBar(
@@ -162,6 +162,7 @@ class _HomePageState extends State<HomePage> {
               child: FutureBuilder(
                 future: _activity,
                 builder: (context, snapshot) {
+                  print(snapshot.data);
                   if(snapshot.connectionState == ConnectionState.waiting)
                     return Center(
                       child: Text("Loading..."),
@@ -199,15 +200,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getTodaysActivity() async {
-    var fire = Firestore.instance;
-    QuerySnapshot qs = await fire.collection('Today\'sActivity').getDocuments();
-    return qs.documents;
+    var fire = FirebaseFirestore.instance;
+    QuerySnapshot qs = await fire.collection('Today\'sActivity').get();
+    return qs.docs;
   }
 
   Future getQuestion() async {
-    var fire = Firestore.instance;
-    QuerySnapshot qs = await fire.collection('QuestionOfTheDay').getDocuments();
-    return qs.documents;
+    var fire = FirebaseFirestore.instance;
+    QuerySnapshot qs = await fire.collection('QuestionOfTheDay').get();
+    return qs.docs;
   }
 }
 

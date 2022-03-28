@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/theme.dart';
+import 'theme.dart';
 
 class CollapsingListTile extends StatefulWidget {
 

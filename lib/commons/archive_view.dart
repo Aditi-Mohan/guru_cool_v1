@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/navigation_model.dart';
-import 'package:gurucoolv1/commons/theme.dart';
+import 'navigation_model.dart';
+import 'theme.dart';
 
 class ArchiveView extends StatefulWidget {
   @override

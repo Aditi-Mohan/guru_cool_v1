@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/collapsing_navigation_drawer.dart';
-import 'package:gurucoolv1/commons/theme.dart';
-import 'package:gurucoolv1/detail_pages/detail_page_recipes.dart';
+import '/commons/collapsing_navigation_drawer.dart';
+import '/commons/theme.dart';
+import '/detail_pages/detail_page_recipes.dart';
 
 class Recipes extends StatefulWidget {
 
@@ -64,9 +64,9 @@ class _RecipesState extends State<Recipes> {
 
   Future getRecipes() async {
     
-    var fire = Firestore.instance;
-    QuerySnapshot qs = await fire.collection('Recipes').getDocuments();
-    return qs.documents;
+    var fire = FirebaseFirestore.instance;
+    QuerySnapshot qs = await fire.collection('Recipes').get();
+    return qs.docs;
   }
   
   void navigateToDetailPage( DocumentSnapshot documentSnapshot) {

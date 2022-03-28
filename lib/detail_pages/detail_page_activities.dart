@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/theme.dart';
-import 'package:gurucoolv1/commons/user.dart';
-import 'package:gurucoolv1/pages/activity_archive.dart';
+import '/commons/theme.dart';
+import '/commons/user.dart';
+import '/pages/activity_archive.dart';
 
 class DetailPageActivities extends StatefulWidget {
 
@@ -21,10 +21,12 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> data = widget.doc.data() as Map<String, dynamic>;
+
     return Scaffold(
       key: _detailPageActivities,
       appBar: AppBar(
-        title: Text("${widget.doc.data['name'].toString().toUpperCase()}", style: AppBarText.detailPage,),
+        title: Text("${data["name"].toString().toUpperCase()}", style: AppBarText.detailPage,),
         backgroundColor: ActivityBackground,
       ),
       body: Card(
@@ -46,12 +48,12 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("${widget.doc.data['description']}", style: DetailPageText.sidePanel,),
+                        Text("${data['description']}", style: DetailPageText.sidePanel,),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Divider(thickness: 3.0, color: Colors.black38,),
                         ),
-                        Text("Goal Of the Activity: \n ${widget.doc.data['goal']}", style: DetailPageText.sidePanel,),
+                        Text("Goal Of the Activity: \n ${data['goal']}", style: DetailPageText.sidePanel,),
                       ],
                     ),
                   ),
@@ -62,7 +64,7 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
                     child: Container(
                       width: MediaQuery.of(context).size.width - 200,
                       child:
-                        Text("${widget.doc.data['deets']}", style: DetailPageText.content),
+                        Text("${data['deets']}", style: DetailPageText.content),
                     ),
                   ),
                 )
@@ -72,7 +74,7 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Firestore.instance.collection('users').document('${obj.name}').collection('activities').document('${widget.doc.documentID}').setData({'deets': widget.doc.data['deets'], 'description': widget.doc.data['description'], 'goal': widget.doc.data['goal'], 'name': widget.doc.data['name']});
+            FirebaseFirestore.instance.collection('users').doc('${obj.name}').collection('activities').doc('${widget.doc.id}').set({'deets': data['deets'], 'description': data['description'], 'goal': data['goal'], 'name': data['name']});
             _detailPageActivities.currentState.showSnackBar(
               SnackBar(
                 content: Container(
@@ -125,11 +127,14 @@ class DetailPageActivityArchive extends StatefulWidget {
 }
 
 class _DetailPageActivityArchiveState extends State<DetailPageActivityArchive> {
+
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> data = widget.doc.data() as Map<String, dynamic>;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.doc.data['name'].toString().toUpperCase()}", style: AppBarText.detailPage,),
+        title: Text("${data['name'].toString().toUpperCase()}", style: AppBarText.detailPage,),
         backgroundColor: ActivityBackground,
       ),
       body: Card(
@@ -151,12 +156,12 @@ class _DetailPageActivityArchiveState extends State<DetailPageActivityArchive> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("${widget.doc.data['description']}", style: DetailPageText.sidePanel,),
+                        Text("${data['description']}", style: DetailPageText.sidePanel,),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Divider(thickness: 3.0, color: Colors.black38,),
                         ),
-                        Text("Goal Of the Activity: \n ${widget.doc.data['goal']}", style: DetailPageText.sidePanel,),
+                        Text("Goal Of the Activity: \n ${data['goal']}", style: DetailPageText.sidePanel,),
                       ],
                     ),
                   ),
@@ -167,7 +172,7 @@ class _DetailPageActivityArchiveState extends State<DetailPageActivityArchive> {
                     child: Container(
                       width: MediaQuery.of(context).size.width - 200,
                       child:
-                      Text("${widget.doc.data['deets']}", style: DetailPageText.content, maxLines: 15,),
+                      Text("${data['deets']}", style: DetailPageText.content, maxLines: 15,),
                     ),
                   ),
                 )

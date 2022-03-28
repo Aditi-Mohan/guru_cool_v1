@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/pages/activity_archive.dart';
-import 'package:gurucoolv1/pages/recipe_archive.dart';
-import 'package:gurucoolv1/pages/vocabulary_archive.dart';
+import '/pages/activity_archive.dart';
+import '/pages/recipe_archive.dart';
+import '/pages/vocabulary_archive.dart';
 
 class NavBarElements {
   String title;

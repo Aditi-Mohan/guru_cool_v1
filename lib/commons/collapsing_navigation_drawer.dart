@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:gurucoolv1/commons/collapsing_list_tile.dart';
-import 'package:gurucoolv1/commons/theme.dart';
-import 'package:gurucoolv1/commons/user.dart';
-import 'package:gurucoolv1/detail_pages/profile_page.dart';
-import 'package:gurucoolv1/pages/about_page.dart';
-import 'package:gurucoolv1/pages/vocabulary.dart';
+import 'collapsing_list_tile.dart';
+import 'theme.dart';
+import 'user.dart';
+import '/detail_pages/profile_page.dart';
+import '/pages/about_page.dart';
+import '/pages/vocabulary.dart';
 import 'navigation_model.dart';
-import 'package:gurucoolv1/pages/activities.dart';
-import 'package:gurucoolv1/pages/home_page.dart';
-import 'package:gurucoolv1/pages/recipes.dart';
-import 'package:gurucoolv1/pages/reminders.dart';
+import '/pages/activities.dart';
+import '/pages/home_page.dart';
+import '/pages/recipes.dart';
+import '/pages/reminders.dart';
 
 int currSelectedCollapsingNavBar = 0;
 
