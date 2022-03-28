@@ -19,6 +19,7 @@ class _VocabularyArchiveState extends State<VocabularyArchive> {
       appBar: AppBar(
         title: Text("VOCABULARY ARCHIVE", style: AppBarText.page,),
         backgroundColor: VocabularyBackground,
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 4.0),
@@ -44,7 +45,7 @@ class _VocabularyArchiveState extends State<VocabularyArchive> {
                       itemCount: words.length,
                       itemBuilder: (context, index) {
                         return Card(
-                          elevation: 5.0,
+//                          elevation: 5.0,
                           child: ListTile(
                             title: Text(words[index].word.toString().toUpperCase(), style: CardTileText.heading,),
                             subtitle: Row(

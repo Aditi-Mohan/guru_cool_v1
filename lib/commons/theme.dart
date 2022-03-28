@@ -23,15 +23,15 @@ Color drawerBackgroundLight = Color.fromRGBO(135, 214, 230, 1);
 Color cardTileDefaultColor = Color.fromRGBO(255, 252, 168, 1);
 Color selectedColor = Color.fromRGBO(50, 64, 54, 1);
 Color RecipeBackground = Color.fromRGBO(255, 185, 20, 1);
-Color RecipeBackgroundLight = Color.fromRGBO(255, 242, 97, 1);
+Color RecipeBackgroundLight = Color.fromRGBO(247, 220, 136, 1);
 Color ActivityBackgroundLight = Color.fromRGBO(255, 189, 145, 1);
 Color ActivityBackground = Color.fromRGBO(247, 150, 59, 1);
 Color ReminderBackground = Color.fromRGBO(245, 59, 59, 1);
 Color ReminderBackgroundLight = Color.fromRGBO(255, 125, 125, 1);
 Color HomepageBackground = drawerBackgroundColor;
 Color HomepageBackgroundLight = Color.fromRGBO(135, 214, 230, 1);
-Color VocabularyBackground = Color.fromRGBO(132, 207, 105, 1);
-Color VocabularyBackgroundLight = Color.fromRGBO(156, 255, 159, 1);
+Color VocabularyBackground = Color.fromRGBO(105, 207, 68, 1);
+Color VocabularyBackgroundLight = Color.fromRGBO(157, 227, 154, 1);
 
 class ListTileText {
   static const TextStyle white = TextStyle(color: Colors.white70, fontSize: 15.0, fontWeight: FontWeight.w600);

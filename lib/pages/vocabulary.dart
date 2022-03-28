@@ -43,10 +43,11 @@ class _VocabularyState extends State<Vocabulary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: VocabularyBackgroundLight,
+//      backgroundColor: VocabularyBackgroundLight,
       appBar: AppBar(
         title: Text("VOCABULARY", style: AppBarText.page,),
         backgroundColor: VocabularyBackground,
+        elevation: 0,
       ),
       drawer: CollapsingNavigationDrawer(currSelected: currSelectedCollapsingNavBar),
       body: Padding(
@@ -61,9 +62,10 @@ class _VocabularyState extends State<Vocabulary> {
                           itemCount: vocabulary.length,
                           itemBuilder: (context, index) {
                             return Card(
-                              elevation: 5.0,
+                              color: arcMap[vocabulary[index].id] ? VocabularyBackgroundLight : VocabularyBackground,
+//                              elevation: 5.0,
                               child: ListTile(
-                                title: Text(vocabulary[index].word.toUpperCase(),style: CardTileText.heading,),
+                                title: Text(vocabulary[index].word.toUpperCase(),style: CardTileText.heading.copyWith(color: Colors.white),),
                                 subtitle: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(vocabulary[index].pronunciation, style: CardTileText.text,),

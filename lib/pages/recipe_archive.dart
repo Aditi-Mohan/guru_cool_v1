@@ -20,6 +20,7 @@ class _RecipeArchiveState extends State<RecipeArchive> {
       appBar: AppBar(
         title: Text("RECIPE ARCHIVE", style: AppBarText.page,),
         backgroundColor: RecipeBackground,
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 4.0),
@@ -45,7 +46,7 @@ class _RecipeArchiveState extends State<RecipeArchive> {
                       itemCount: recipes.length,
                       itemBuilder: (context, index) {
                         return Card(
-                          elevation: 5.0,
+//                          elevation: 5.0,
                           child: ListTile(
                             title: Text("${recipes[index].name.toString().toUpperCase()}",
                               style: CardTileText.heading,),

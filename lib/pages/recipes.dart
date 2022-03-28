@@ -42,10 +42,11 @@ class _RecipesState extends State<Recipes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: RecipeBackgroundLight,
+//      backgroundColor: RecipeBackgroundLight,
       appBar: AppBar(
         title: Text('RECIPES', style: AppBarText.page,),
         backgroundColor: RecipeBackground,
+        elevation: 0,
       ),
       drawer: CollapsingNavigationDrawer(currSelected: currSelectedCollapsingNavBar,),
       body: Padding(
@@ -60,12 +61,13 @@ class _RecipesState extends State<Recipes> {
                       itemCount: recipes.length,
                       itemBuilder: (context, index) {
                         return Card(
-                          elevation: 5.0,
+//                          elevation: 5.0,
+                          color: arcMap[recipes[index].id] ? RecipeBackgroundLight : RecipeBackground,
                           child: ListTile(
                             title: Text(
                               "${recipes[index].name.toString()
                                   .toUpperCase()}",
-                              style: CardTileText.heading,),
+                              style: CardTileText.heading.copyWith(color: Colors.white),),
                             subtitle: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
