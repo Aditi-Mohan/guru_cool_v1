@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '/models/activity.dart';
 import '/commons/collapsing_navigation_drawer.dart';
 import '/commons/theme.dart';
 import '/commons/user.dart';
 import '/detail_pages/detail_page_activities.dart';
+import '/models/reminder.dart';
 
-class Reminder extends StatefulWidget {
+class Reminders extends StatefulWidget {
 
   @override
-  _ReminderState createState() => _ReminderState();
+  _RemindersState createState() => _RemindersState();
 }
 
-class _ReminderState extends State<Reminder> {
+class _RemindersState extends State<Reminders> {
 
   final GlobalKey<ScaffoldState> _Reminder = new GlobalKey<ScaffoldState>();
 
@@ -29,20 +31,19 @@ class _ReminderState extends State<Reminder> {
         padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 4.0),
         child: Column(
           children: <Widget>[
-            FutureBuilder(
+            FutureBuilder<Activity>(
               future: getTodaysActivity(),
               builder: (context, snapshot) {
                 if(snapshot.connectionState == ConnectionState.done) {
-                  QueryDocumentSnapshot doc = snapshot.data[0];
-                  Map<String, dynamic> data = doc.data();
+                  Activity activity = snapshot.data;
                   return Card(
                     elevation: 5.0,
                     child: ListTile(
                       title: Text(
                         "Today\'s Activity", style: CardTileText.heading,),
-                      subtitle: Text("${doc.id}",
+                      subtitle: Text("${activity.name}",
                         style: CardTileText.text,),
-                      onTap: () => navigateToDetailPage(doc),
+                      onTap: () => navigateToDetailPage(activity),
                     ),
                   );
                 }
@@ -51,23 +52,21 @@ class _ReminderState extends State<Reminder> {
                 }
               },
             ),
-            FutureBuilder(
+            FutureBuilder<List<Reminder>>(
               future: getReminders(),
               builder: (context, snapshot) {
                 if(snapshot.connectionState == ConnectionState.done ) {
+                  List<Reminder> rems = snapshot.data;
                   return Expanded(
                     child: ListView.builder(
-                      itemCount: snapshot.data.length,
+                      itemCount: rems.length,
                       itemBuilder: (context, index) {
-                        QueryDocumentSnapshot reminder = snapshot.data[index];
-                        Map<String, dynamic> data = reminder.data();
-
                         return Card(
                           elevation: 5.0,
                           child: ExpansionTile(
                             leading: Icon(Icons.alarm),
                             title: Text(
-                              "${reminder.id.toString()
+                              "${rems[index].title.toString()
                                   .toUpperCase()}",
                               style: CardTileText.heading,),
                             children: <Widget>[
@@ -75,7 +74,7 @@ class _ReminderState extends State<Reminder> {
                                 children: <Widget>[
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Text("${data['description']}",
+                                    child: Text(rems[index].description,
                                       style: CardTileText.text,),
                                   ),
                                   FlatButton(
@@ -87,7 +86,7 @@ class _ReminderState extends State<Reminder> {
                                           '${obj.name}').collection(
                                           'DailyTasks')
                                           .doc(
-                                          '${reminder.id}')
+                                          '${rems[index].id}')
                                           .get();
                                       if (doc.exists) {
                                         Map<String, dynamic> data = doc.data();
@@ -96,7 +95,7 @@ class _ReminderState extends State<Reminder> {
                                             'users').doc(
                                             '${obj.name}')
                                             .collection('DailyTasks')
-                                            .doc('${reminder.id}')
+                                            .doc('${rems[index].id}')
                                             .set({'count': currCount + 1});
                                       }
                                       else
@@ -104,7 +103,7 @@ class _ReminderState extends State<Reminder> {
                                             'users').doc(
                                             '${obj.name}')
                                             .collection('DailyTasks')
-                                            .doc('${reminder.id}')
+                                            .doc('${rems[index].id}')
                                             .set({'count': currCount + 1});
                                       _Reminder.currentState.showSnackBar(
                                           SnackBar(
@@ -135,21 +134,21 @@ class _ReminderState extends State<Reminder> {
       ),
     );
   }
+//
+//  Future getReminders() async {
+//    var fire = FirebaseFirestore.instance;
+//    QuerySnapshot qs = await fire.collection('Reminders').get();
+//    return qs.docs;
+//  }
 
-  Future getReminders() async {
-    var fire = FirebaseFirestore.instance;
-    QuerySnapshot qs = await fire.collection('Reminders').get();
-    return qs.docs;
-  }
+//  Future getTodaysActivity() async {
+//  var fire = FirebaseFirestore.instance;
+//  QuerySnapshot qs = await fire.collection('Today\'sActivity').get();
+//  return qs.docs;
+//  }
 
-  Future getTodaysActivity() async {
-  var fire = FirebaseFirestore.instance;
-  QuerySnapshot qs = await fire.collection('Today\'sActivity').get();
-  return qs.docs;
-  }
-
-  void navigateToDetailPage(DocumentSnapshot documentSnapshot) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPageActivities(doc: documentSnapshot,)));
+  void navigateToDetailPage(Activity act) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPageActivities(activity: act, inArchive: false,)));
   }
 
 }

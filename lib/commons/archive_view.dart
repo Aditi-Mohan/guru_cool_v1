@@ -9,12 +9,12 @@ class ArchiveView extends StatefulWidget {
 
 class _ArchiveViewState extends State<ArchiveView> {
 
-  int curr =0;
+  int curr = 0;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 225,
+      height: 275,
       child: PageView.builder(
           itemCount: archives.length,
           controller: PageController(viewportFraction: 0.69),
@@ -25,7 +25,7 @@ class _ArchiveViewState extends State<ArchiveView> {
           },
           itemBuilder: (context, counter) {
             return Transform.scale(
-              scale: curr == counter?1:0.8,
+              scale: curr == counter?0.9:0.8,
               child: Card(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                 elevation: curr == counter?10.0:3.0,

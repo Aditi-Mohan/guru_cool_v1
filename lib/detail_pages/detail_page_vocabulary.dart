@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '/models/word.dart';
 import '/commons/theme.dart';
 import '/commons/user.dart';
 import '/pages/vocabulary_archive.dart';
 
 class DetailPageVocabulary extends StatefulWidget {
 
-  final DocumentSnapshot doc;
+  final Word word;
+  final bool inArchive;
 
-  DetailPageVocabulary({this.doc});
+  DetailPageVocabulary({this.word, this.inArchive});
 
   @override
   _DetailPageVocabularyState createState() => _DetailPageVocabularyState();
@@ -21,12 +23,10 @@ class _DetailPageVocabularyState extends State<DetailPageVocabulary> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> data = widget.doc.data() as Map<String, dynamic>;
-
     return Scaffold(
       key: _detailPageVocabulary,
       appBar: AppBar(
-        title: Text("${data['word'].toString().toUpperCase()}", style: AppBarText.detailPage,),
+        title: Text(widget.word.word.toString().toUpperCase(), style: AppBarText.detailPage,),
         backgroundColor: VocabularyBackground,
       ),
       body: Card(
@@ -48,7 +48,7 @@ class _DetailPageVocabularyState extends State<DetailPageVocabulary> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("Pronunciation:\n ${data['pronunciation']}", style: DetailPageText.sidePanel,),
+                        Text("Pronunciation:\n ${widget.word.pronunciation}", style: DetailPageText.sidePanel,),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Divider(thickness: 3.0, color: Colors.black38,),
@@ -63,7 +63,7 @@ class _DetailPageVocabularyState extends State<DetailPageVocabulary> {
                     child: Container(
                       width: MediaQuery.of(context).size.width - 200,
                       child:
-                      Text("Meaning: ${data['meaning']} \n\n\n Example: ${data['inasentence']}", style: DetailPageText.content,),
+                      Text("Meaning: ${widget.word.meaning} \n\n\n Example: ${widget.word.sentence}", style: DetailPageText.content,),
                     ),
                   ),
                 )
@@ -73,7 +73,14 @@ class _DetailPageVocabularyState extends State<DetailPageVocabulary> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            FirebaseFirestore.instance.collection('users').doc('${obj.name}').collection('vocabulary').doc('${widget.doc.id}').set({'inasentence': data['inasentence'], 'pronunciation': data['pronunciation'], 'word': data['word'], 'meaning': data['meaning']});
+            FirebaseFirestore.instance.collection('users').doc('${obj.name}')
+                .collection('vocabulary').doc('${widget.word.id}').set(
+                {
+                  'inasentence': widget.word.sentence,
+                  'pronunciation': widget.word.pronunciation,
+                  'word': widget.word.word,
+                  'meaning': widget.word.meaning
+                });
             _detailPageVocabulary.currentState.showSnackBar(
               SnackBar(
                 content: Container(
@@ -103,80 +110,22 @@ class _DetailPageVocabularyState extends State<DetailPageVocabulary> {
               )
             );
           },
-          label: Row(children: <Widget>[Icon(Icons.local_library, color: Colors.white,), Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Learn\'t", style: AppBarText.page,),
-          )],),
-        backgroundColor: VocabularyBackground,
-      )
-    );
-  }
-}
-
-
-class DetailPageVocabularyArchive extends StatefulWidget {
-
-  final DocumentSnapshot doc;
-
-  DetailPageVocabularyArchive({this.doc});
-
-  @override
-  _DetailPageVocabularyArchiveState createState() => _DetailPageVocabularyArchiveState();
-}
-
-class _DetailPageVocabularyArchiveState extends State<DetailPageVocabularyArchive> {
-
-  @override
-  Widget build(BuildContext context) {
-    Map<String, dynamic> data = widget.doc.data() as Map<String, dynamic>;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("${data['word'].toString().toUpperCase()}", style: AppBarText.detailPage,),
-        backgroundColor: VocabularyBackground,
-      ),
-      body: Card(
-          elevation: 5.0,
-          child: Container(
-            width: MediaQuery.of(context).size.width - 10,
-            height: MediaQuery.of(context).size.height - 10,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  width: 150,
-                  height: MediaQuery.of(context).size.height - 15,
-                  color: VocabularyBackground,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Pronunciation:\n ${data['pronunciation']}", style: DetailPageText.sidePanel,),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Divider(thickness: 3.0, color: Colors.black38,),
-                        ),
-                      ],
-                    ),
-                  ),
+          label: Row(
+            children: [
+              !widget.inArchive ? Icon(Icons.local_library, color: Colors.white,) : Container(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Builder(
+                  builder: (context) {
+                    if(widget.inArchive) return Text("Completed", style: AppBarText.page,);
+                    return Text("Complete", style: AppBarText.page,);
+                  }
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width - 200,
-                      child:
-                      Text("Meaning: ${data['meaning']} \n\n\n Example: ${data['inasentence']}", style: DetailPageText.content,),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          )
-      ),
+              )
+            ],
+          ),
+        backgroundColor: widget.inArchive ? VocabularyBackgroundLight : VocabularyBackground,
+      )
     );
   }
 }

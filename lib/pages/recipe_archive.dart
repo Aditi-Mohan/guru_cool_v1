@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '/commons/theme.dart';
 import '/commons/user.dart';
 import '/detail_pages/detail_page_recipes.dart';
+import '/models/recipe.dart';
 
 class RecipeArchive extends StatefulWidget {
 
@@ -23,8 +25,8 @@ class _RecipeArchiveState extends State<RecipeArchive> {
         padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 4.0),
         child: Column(
           children: <Widget>[
-            FutureBuilder(
-              future: getRecipes(),
+            FutureBuilder<List<Recipe>>(
+              future: getRecipeArchive(obj),
               builder: (context, snapshot) {
                 if(snapshot.connectionState == ConnectionState.waiting)
                   return Center(
@@ -35,31 +37,40 @@ class _RecipeArchiveState extends State<RecipeArchive> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text("You haven\'t tried any Recipes yet! ", style: TextStyle(color: selectedColor, fontWeight: FontWeight.w900, fontSize: 30)),
                   ));
-                else
+                else {
+                  List<Recipe> recipes = snapshot.data;
+
                   return Expanded(
                     child: ListView.builder(
-                      itemCount: snapshot.data.length,
+                      itemCount: recipes.length,
                       itemBuilder: (context, index) {
-                        QueryDocumentSnapshot recipe = snapshot.data[index];
-                        Map<String, dynamic> data = recipe.data();
-
                         return Card(
                           elevation: 5.0,
                           child: ListTile(
-                            title: Text("${recipe.id.toString().toUpperCase()}",style: CardTileText.heading,),
+                            title: Text("${recipes[index].name.toString().toUpperCase()}",
+                              style: CardTileText.heading,),
                             subtitle: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text("Preperation Time: ${data['prepTime']}", style: CardTileText.text,),
-                                Text("Difficulty Level: ${data['level']}", style: CardTileText.text,)
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.alarm, size: 18, color: ReminderBackground,),
+                                    Text(" ${recipes[index].prepTime}",
+                                      style: CardTileText.text,),
+                                  ],
+                                ),
+                                Text("Difficulty Level: ${recipes[index].level}",
+                                  style: CardTileText.text,)
                               ],
                             ),
-                            onTap: () => navigateToDetailPage(recipe),
+                            onTap: () => navigateToDetailPage(recipes[index], true),
                           ),
                         );
                       },
                     ),
                   );
+                }
               },
             )
           ],
@@ -68,14 +79,8 @@ class _RecipeArchiveState extends State<RecipeArchive> {
     );
   }
 
-  Future getRecipes() async {
-    var fire = FirebaseFirestore.instance;
-    QuerySnapshot qs = await fire.collection('users').doc('${obj.name}').collection('recipes').get();
-    return qs.docs;
-  }
-
-  void navigateToDetailPage(DocumentSnapshot documentSnapshot) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPageRecipes(doc: documentSnapshot,)));
+  void navigateToDetailPage(Recipe recp, bool inArchive) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPageRecipes(recipe: recp, inArchive: inArchive)));
   }
 
 }

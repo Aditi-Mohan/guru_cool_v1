@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '/models/activity.dart';
 import '/commons/collapsing_navigation_drawer.dart';
 import '/commons/theme.dart';
+import '/commons/user.dart';
 import '/detail_pages/detail_page_activities.dart';
 
 class Activities extends StatefulWidget {
@@ -10,6 +12,32 @@ class Activities extends StatefulWidget {
 }
 
 class _ActivitiesState extends State<Activities> {
+
+  List<Activity> activities = [];
+  List<Activity> archivedActivities = [];
+  Map<String, bool> arcMap;
+  bool loaded = false;
+
+  @override
+  void initState() {
+    getActivities().then((acts) {
+      setState(() {
+        activities = acts;
+      });
+      getActivityArchive(obj).then((arcs) {
+        setState(() {
+          archivedActivities = arcs;
+        });
+        Map<String, bool> map = actIsInArchive(acts, arcs);
+        setState(() {
+          arcMap = map;
+          loaded = true;
+        });
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,26 +48,22 @@ class _ActivitiesState extends State<Activities> {
         padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 4.0),
         child: Column(
           children: <Widget>[
-            FutureBuilder(
-              future: getActivities(),
-              builder: (context, snapshot) {
-                if(snapshot.connectionState == ConnectionState.done ) {
+            Builder(
+              builder: (context) {
+                if(loaded) {
                   return Expanded(
                     child: ListView.builder(
-                      itemCount: snapshot.data.length,
+                      itemCount: activities.length,
                       itemBuilder: (context, index) {
-                        QueryDocumentSnapshot activity = snapshot.data[index];
-                        Map<String, dynamic> data = activity.data();
-
                         return Card(
                           elevation: 5.0,
                           child: ListTile(
-                            title: Text("${activity.id.toString().toUpperCase()}",style: CardTileText.heading,),
+                            title: Text(activities[index].name.toUpperCase(),style: CardTileText.heading,),
                             subtitle: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("${data['description']}", style: CardTileText.text,),
+                              child: Text(activities[index].description, style: CardTileText.text,),
                             ),
-                            onTap: () => navigateToDetailPage(activity),
+                            onTap: () => navigateToDetailPage(activities[index], arcMap[activities[index].id]),
                           ),
                         );
                       },
@@ -49,23 +73,60 @@ class _ActivitiesState extends State<Activities> {
                 else {
                   return Center(child: Text("Loading..."));
                 }
-                },
+              },
             ),
+//            FutureBuilder(
+//              future: getActivities(),
+//              builder: (context, snapshot) {
+//                if(snapshot.connectionState == ConnectionState.done ) {
+//                  return Expanded(
+//                    child: ListView.builder(
+//                      itemCount: snapshot.data.length,
+//                      itemBuilder: (context, index) {
+//                        QueryDocumentSnapshot activity = snapshot.data[index];
+//                        Map<String, dynamic> data = activity.data();
+//
+//                        return Card(
+//                          elevation: 5.0,
+//                          child: ListTile(
+//                            title: Text("${activity.id.toString().toUpperCase()}",style: CardTileText.heading,),
+//                            subtitle: Padding(
+//                              padding: const EdgeInsets.all(8.0),
+//                              child: Text("${data['description']}", style: CardTileText.text,),
+//                            ),
+//                            onTap: () => navigateToDetailPage(activity),
+//                          ),
+//                        );
+//                      },
+//                    ),
+//                  );
+//                }
+//                else {
+//                  return Center(child: Text("Loading..."));
+//                }
+//                },
+//            ),
           ],
           ),
       )
     );
   }
 
-  Future getActivities() async {
-    print("here");
-    var fire = FirebaseFirestore.instance;
-    QuerySnapshot qs = await fire.collection('Activities').get();
-    return qs.docs;
+  Map<String, bool> actIsInArchive(List<Activity> acts, List<Activity> arcs) {
+    print(acts.length);
+    print(arcs.length);
+    Map<String, bool> res = {};
+    acts.forEach((element) {
+      res[element.id] = false;
+    });
+    arcs.forEach((element) {
+      res[element.id] = true;
+    });
+    return res;
   }
 
-  void navigateToDetailPage( DocumentSnapshot documentSnapshot) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPageActivities(doc: documentSnapshot,)));
+  void navigateToDetailPage(Activity act, bool inArchive) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPageActivities(activity: act, inArchive: inArchive,)));
   }
 
 }

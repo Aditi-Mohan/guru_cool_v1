@@ -1,26 +1,59 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '/commons/user.dart';
+
 class Recipe {
   String id;
   String name;
   String prepTime;
-  String level;
+  double level;
   String recp;
 
   Map<String, dynamic> get recipeMap {
-    Map<String, dynamic> obj = {
+    Map<String, dynamic> recp = {
       "id": this.id,
       "name": this.name,
       "prepTime": this.prepTime,
       "level": this.level,
       "recp": this.recp,
     };
-    return obj;
+    return recp;
   }
 
-  Recipe.fromMap(Map<String, dynamic> obj) {
-    this.id = obj["id"];
+  Recipe.fromMap(Map<String, dynamic> obj, String id) {
+    this.id = id;
     this.name = obj["name"];
     this.prepTime = obj["prepTime"];
-    this.level = obj["level"];
+    this.level = obj["level"].toDouble();
     this.recp = obj["recp"];
   }
+}
+
+Future<List<Recipe>> getRecipes() async {
+  var fire = FirebaseFirestore.instance;
+  QuerySnapshot qs = await fire.collection('Recipes').get();
+  List<Recipe> recipes = [];
+  qs.docs.forEach((element) {
+    Recipe r = Recipe.fromMap(element.data(), element.id);
+    recipes.add(r);
+  });
+  return recipes;
+}
+
+Future<List<Recipe>> getRecipeArchive(User obj) async {
+  var fire = FirebaseFirestore.instance;
+  QuerySnapshot qs = await fire.collection('users').doc('${obj.name}').collection('recipes').get();
+  List<Recipe> recipes = [];
+  qs.docs.forEach((element) {
+    Recipe r = Recipe.fromMap(element.data(), element.id);
+    recipes.add(r);
+  });
+  return recipes;
+}
+
+// TODO
+Future<Recipe> RecipeOfTheDay() async {
+  var fire = FirebaseFirestore.instance;
+  QuerySnapshot qs = await fire.collection('RecipeOfTheDay').get();
+  Recipe r = Recipe.fromMap(qs.docs[0].data(), qs.docs[0].id);
+  return r;
 }

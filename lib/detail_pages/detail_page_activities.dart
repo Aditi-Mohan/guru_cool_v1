@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '/models/activity.dart';
 import '/commons/theme.dart';
 import '/commons/user.dart';
 import '/pages/activity_archive.dart';
 
 class DetailPageActivities extends StatefulWidget {
 
-  final DocumentSnapshot doc;
+  final Activity activity;
+  final bool inArchive;
 
-  DetailPageActivities({this.doc});
+  DetailPageActivities({this.activity, this.inArchive});
 
   @override
   _DetailPageActivitiesState createState() => _DetailPageActivitiesState();
@@ -21,12 +23,10 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> data = widget.doc.data() as Map<String, dynamic>;
-
     return Scaffold(
       key: _detailPageActivities,
       appBar: AppBar(
-        title: Text("${data["name"].toString().toUpperCase()}", style: AppBarText.detailPage,),
+        title: Text(widget.activity.name.toUpperCase(), style: AppBarText.detailPage,),
         backgroundColor: ActivityBackground,
       ),
       body: Card(
@@ -48,12 +48,12 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("${data['description']}", style: DetailPageText.sidePanel,),
+                        Text(widget.activity.description, style: DetailPageText.sidePanel,),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Divider(thickness: 3.0, color: Colors.black38,),
                         ),
-                        Text("Goal Of the Activity: \n ${data['goal']}", style: DetailPageText.sidePanel,),
+                        Text("Goal Of the Activity: \n ${widget.activity.goal}", style: DetailPageText.sidePanel,),
                       ],
                     ),
                   ),
@@ -64,7 +64,7 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
                     child: Container(
                       width: MediaQuery.of(context).size.width - 200,
                       child:
-                        Text("${data['deets']}", style: DetailPageText.content),
+                        Text(widget.activity.deets, style: DetailPageText.content),
                     ),
                   ),
                 )
@@ -74,7 +74,14 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            FirebaseFirestore.instance.collection('users').doc('${obj.name}').collection('activities').doc('${widget.doc.id}').set({'deets': data['deets'], 'description': data['description'], 'goal': data['goal'], 'name': data['name']});
+            FirebaseFirestore.instance.collection('users').doc('${obj.name}')
+                .collection('activities').doc('${widget.activity.id}')
+                .set({
+                  'deets': widget.activity.deets,
+                  'description': widget.activity.description,
+                  'goal': widget.activity.goal,
+                  'name': widget.activity.name
+                });
             _detailPageActivities.currentState.showSnackBar(
               SnackBar(
                 content: Container(
@@ -104,81 +111,21 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
               )
             );
           },
-          label: Row(children: <Widget>[Icon(Icons.done_outline, color: Colors.white,), Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Completed", style: AppBarText.page,),
-          )],
-          ),
-        backgroundColor: ActivityBackground,
-      ),
-    );
-  }
-}
-
-
-class DetailPageActivityArchive extends StatefulWidget {
-
-  final DocumentSnapshot doc;
-
-  DetailPageActivityArchive({this.doc});
-
-  @override
-  _DetailPageActivityArchiveState createState() => _DetailPageActivityArchiveState();
-}
-
-class _DetailPageActivityArchiveState extends State<DetailPageActivityArchive> {
-
-  @override
-  Widget build(BuildContext context) {
-    Map<String, dynamic> data = widget.doc.data() as Map<String, dynamic>;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("${data['name'].toString().toUpperCase()}", style: AppBarText.detailPage,),
-        backgroundColor: ActivityBackground,
-      ),
-      body: Card(
-          elevation: 5.0,
-          child: Container(
-            width: MediaQuery.of(context).size.width - 10,
-            height: MediaQuery.of(context).size.height - 10,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  width: 150,
-                  height: MediaQuery.of(context).size.height - 15,
-                  color: ActivityBackground,
-                  child: Padding(
+          label: Row(
+                children: [
+                  !widget.inArchive ? Icon(Icons.done_outline, color: Colors.white,) : Container(),
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("${data['description']}", style: DetailPageText.sidePanel,),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Divider(thickness: 3.0, color: Colors.black38,),
+                    child: Builder(
+                        builder: (context) {
+                          if(widget.inArchive) return Text("Completed", style: AppBarText.page,);
+                          else return Text("Complete", style: AppBarText.page,);
+                        }
                         ),
-                        Text("Goal Of the Activity: \n ${data['goal']}", style: DetailPageText.sidePanel,),
-                      ],
-                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width - 200,
-                      child:
-                      Text("${data['deets']}", style: DetailPageText.content, maxLines: 15,),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          )
+                ],
+              ),
+        backgroundColor: widget.inArchive ? ActivityBackgroundLight : ActivityBackground,
       ),
     );
   }

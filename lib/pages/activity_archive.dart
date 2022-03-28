@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '/models/activity.dart';
 import '/commons/theme.dart';
 import '/commons/user.dart';
 import '/detail_pages/detail_page_activities.dart';
@@ -23,8 +24,8 @@ class _ActivityArchiveState extends State<ActivityArchive> {
         padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 4.0),
         child: Column(
           children: <Widget>[
-            FutureBuilder(
-              future: getRecipes(),
+            FutureBuilder<List<Activity>>(
+              future: getActivityArchive(obj),
               builder: (context, snapshot) {
                 if(snapshot.connectionState == ConnectionState.waiting)
                   return Center(
@@ -35,30 +36,27 @@ class _ActivityArchiveState extends State<ActivityArchive> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text("You haven\'t tried any Activities yet!", style: TextStyle(color: selectedColor, fontWeight: FontWeight.w900, fontSize: 30.0)),
                   ));
-                else
+                else {
+                  List<Activity> archive = snapshot.data;
                   return Expanded(
                     child: ListView.builder(
-                      itemCount: snapshot.data.length,
+                      itemCount: archive.length,
                       itemBuilder: (context, index) {
-                        QueryDocumentSnapshot activity = snapshot.data[index];
-                        Map<String, dynamic> data = activity.data();
-
                         return Card(
                           elevation: 5.0,
                           child: ListTile(
-                            title: Text("${activity.id.toString().toUpperCase()}",style: CardTileText.heading,),
-                            subtitle: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text("${data['description']}", style: CardTileText.text,),
-                              ],
-                            ),
-                            onTap: () => navigateToDetailPage(activity),
+                            title: Text(
+                              archive[index].name.toString().toUpperCase(),
+                              style: CardTileText.heading,),
+                            subtitle: Text(archive[index].description,
+                              style: CardTileText.text,),
+                            onTap: () => navigateToDetailPage(archive[index], true),
                           ),
                         );
                       },
                     ),
                   );
+                }
               },
             )
           ],
@@ -67,14 +65,8 @@ class _ActivityArchiveState extends State<ActivityArchive> {
     );
   }
 
-  Future getRecipes() async {
-    var fire = FirebaseFirestore.instance;
-    QuerySnapshot qs = await fire.collection('users').doc('${obj.name}').collection('activities').get();
-    return qs.docs;
-  }
-
-  void navigateToDetailPage(DocumentSnapshot documentSnapshot) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPageActivities(doc: documentSnapshot,)));
+  void navigateToDetailPage(Activity act, bool inArchive) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPageActivities(activity: act, inArchive: inArchive,)));
   }
 
 }

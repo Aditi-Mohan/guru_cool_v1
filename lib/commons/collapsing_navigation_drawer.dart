@@ -17,7 +17,7 @@ List<Widget> pages = [
   HomePage(showSnackBarOnEntry: false,),
   Activities(),
   Recipes(),
-  Reminder(),
+  Reminders(),
   Vocabulary(),
   AboutPage(),
 ];

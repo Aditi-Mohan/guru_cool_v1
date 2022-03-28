@@ -1,14 +1,11 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '/models/activity.dart';
 import '/commons/archive_view.dart';
 import '/commons/collapsing_navigation_drawer.dart';
 import '/commons/theme.dart';
 import '/commons/user.dart';
 import '/detail_pages/detail_page_activities.dart';
-
 
 class HomePage extends StatefulWidget {
 
@@ -26,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _HomePage = new GlobalKey<ScaffoldState>();
 
   Future _question;
-  Future _activity;
+  Future<Activity> _activity;
   TextEditingController _answer = new TextEditingController();
   bool _validate = false;
 
@@ -181,13 +178,11 @@ class _HomePageState extends State<HomePage> {
             Card(
               elevation: 5.0,
               color: ReminderBackground,
-              child: FutureBuilder(
+              child: FutureBuilder<Activity>(
                 future: _activity,
                 builder: (context, snapshot) {
-                  print(snapshot.data);
                   if(snapshot.connectionState == ConnectionState.done) {
-                    QueryDocumentSnapshot task = snapshot.data[0];
-                    Map<String, dynamic> data = task.data();
+                    Activity task = snapshot.data;
 
                     return ListTile(
                       leading: Icon(
@@ -198,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                       onTap: () =>
                           Navigator.push(context, MaterialPageRoute(builder: (
                               context) =>
-                              DetailPageActivities(doc: task,))),
+                              DetailPageActivities(activity: task, inArchive: false,))),
                     );
                   }
                   else {
@@ -221,7 +216,10 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                    ArchiveView()
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 28.0),
+                      child: ArchiveView(),
+                    )
                   ],
                 ),
               ),
@@ -229,12 +227,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  Future getTodaysActivity() async {
-    var fire = FirebaseFirestore.instance;
-    QuerySnapshot qs = await fire.collection('Today\'sActivity').get();
-    return qs.docs;
   }
 
   Future getQuestion() async {
