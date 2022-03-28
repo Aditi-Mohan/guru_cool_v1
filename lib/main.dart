@@ -71,9 +71,3 @@ class _DemoPageState extends State<DemoPage> {
     return Container();
   }
 }
-
-//
-// Fixed depricated Android Embedding
-// Fixed outdated platform package error
-// Converted all Firebase statement to be compatible with the latest package
-// Updated kotlin gradle version
