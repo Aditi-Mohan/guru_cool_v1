@@ -7,11 +7,13 @@ import '/commons/theme.dart';
 import '/commons/user.dart';
 import '/pages/recipe_archive.dart';
 import '/models/recipe.dart';
+import 'package:confetti/confetti.dart';
+import 'dart:math';
 
 class DetailPageRecipes extends StatefulWidget {
 
   final Recipe recipe;
-  final bool inArchive;
+  bool inArchive;
 
 
   DetailPageRecipes({this.recipe, this.inArchive});
@@ -23,66 +25,109 @@ class DetailPageRecipes extends StatefulWidget {
 class _DetailPageRecipesState extends State<DetailPageRecipes> {
 
   final GlobalKey<ScaffoldState> _detailPageRecipes = new GlobalKey<ScaffoldState>();
+  ConfettiController _controllerCenter;
+
+  @override
+  void initState() {
+    super.initState();
+    _controllerCenter =
+        ConfettiController(duration: const Duration(seconds: 3));
+  }
+
+  @override
+  void dispose() {
+    _controllerCenter.dispose();
+    super.dispose();
+  }
+
+  /// A custom Path to paint stars.
+  Path drawStar(Size size) {
+    // Method to convert degree to radians
+    double degToRad(double deg) => deg * (pi / 180.0);
+
+    const numberOfPoints = 5;
+    final halfWidth = size.width / 2;
+    final externalRadius = halfWidth;
+    final internalRadius = halfWidth / 2.5;
+    final degreesPerStep = degToRad(360 / numberOfPoints);
+    final halfDegreesPerStep = degreesPerStep / 2;
+    final path = Path();
+    final fullAngle = degToRad(360);
+    path.moveTo(size.width, halfWidth);
+
+    for (double step = 0; step < fullAngle; step += degreesPerStep) {
+      path.lineTo(halfWidth + externalRadius * cos(step),
+          halfWidth + externalRadius * sin(step));
+      path.lineTo(halfWidth + internalRadius * cos(step + halfDegreesPerStep),
+          halfWidth + internalRadius * sin(step + halfDegreesPerStep));
+    }
+    path.close();
+    return path;
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget body = Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
+      key: _detailPageRecipes,
+      body: Stack(
+        children: [
+          Container(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
 //              height: 111,
-              width: MediaQuery.of(context).size.width,
-              color: RecipeBackgroundLight,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(height: 50,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                    child: Text(widget.recipe.name.toUpperCase(), style: CardTileText.heading, textAlign: TextAlign.center,),
+                  width: MediaQuery.of(context).size.width,
+                  color: RecipeBackgroundLight,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(height: 50,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                        child: Text(widget.recipe.name.toUpperCase(), style: CardTileText.heading, textAlign: TextAlign.center,),
+                      ),
+                      Container(height: 10,)
+                    ],
                   ),
-                  Container(height: 10,)
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
-              child: Row(
-                children: [
-                  Card(
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 125,
-                            width: (MediaQuery.of(context).size.width/2)-20,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 18.0, top: 20),
-                                  child: Text("Difficulty", style: CardTileText.text.copyWith(fontWeight: FontWeight.bold, fontSize: 18),),
-                                ),
-                                LinearPercentIndicator(
-                                  width: (MediaQuery.of(context).size.width/2)-20,
-                                  animation: true,
-                                  lineHeight: 10.0,
-                                  animationDuration: 700,
-                                  percent: widget.recipe.level/10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+                  child: Row(
+                    children: [
+                      Card(
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 125,
+                                width: (MediaQuery.of(context).size.width/2)-20,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 18.0, top: 20),
+                                      child: Text("Difficulty", style: CardTileText.text.copyWith(fontWeight: FontWeight.bold, fontSize: 18),),
+                                    ),
+                                    LinearPercentIndicator(
+                                      width: (MediaQuery.of(context).size.width/2)-20,
+                                      animation: true,
+                                      lineHeight: 10.0,
+                                      animationDuration: 700,
+                                      percent: widget.recipe.level/10,
 //                                  linearStrokeCap: LinearStrokeCap.roundAll,
-                                  progressColor: widget.recipe.level/10 <= 0.33 ?
-                                      Color.fromRGBO(181,217,157, 1) :
-                                      widget.recipe.level/10 <= 0.66 ? Color.fromRGBO(253,171,90, 1) :
-                                      Color.fromRGBO(241,94,90, 1),
-                                  backgroundColor: Color.fromRGBO(208,210,212, 0.5),
-                                  barRadius: Radius.circular(10),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text("${widget.recipe.level}/10", style: CardTileText.text.copyWith(fontSize: 14),),
-                                ),
+                                      progressColor: widget.recipe.level/10 <= 0.33 ?
+                                          Color.fromRGBO(181,217,157, 1) :
+                                          widget.recipe.level/10 <= 0.66 ? Color.fromRGBO(253,171,90, 1) :
+                                          Color.fromRGBO(241,94,90, 1),
+                                      backgroundColor: Color.fromRGBO(208,210,212, 0.5),
+                                      barRadius: Radius.circular(10),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text("${widget.recipe.level}/10", style: CardTileText.text.copyWith(fontSize: 14),),
+                                    ),
 //                                Container(
 //                                  height: 10,
 //                                  width: (MediaQuery.of(context).size.width/2)-50,
@@ -100,134 +145,157 @@ class _DetailPageRecipesState extends State<DetailPageRecipes> {
 //                                    ),
 //                                  ),
 //                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Card(
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 125,
-                            width: (MediaQuery.of(context).size.width/2)-20,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0, top: 20),
-                                  child: Text("Time", style: CardTileText.text.copyWith(fontWeight: FontWeight.bold, fontSize: 18),),
+                                  ],
                                 ),
-                                Row(
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Card(
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 125,
+                                width: (MediaQuery.of(context).size.width/2)-20,
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 18.0, right: 3.0),
-                                      child: Icon(
-                                        Icons.alarm,
-                                        size: 35,
-                                        color: ReminderBackgroundLight,
-                                      ),
+                                      padding: const EdgeInsets.only(bottom: 8.0, top: 20),
+                                      child: Text("Time", style: CardTileText.text.copyWith(fontWeight: FontWeight.bold, fontSize: 18),),
                                     ),
-                                    Container(
-                                      height: 50,
-                                      width: (MediaQuery.of(context).size.width/2)-90,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 18.0, right: 3.0),
+                                          child: Icon(
+                                            Icons.alarm,
+                                            size: 35,
+                                            color: ReminderBackgroundLight,
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 50,
+                                          width: (MediaQuery.of(context).size.width/2)-90,
 //                                      color: Colors.blue,
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "${widget.recipe.prepTime}",
-                                            style: CardTileText.text.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Text(
-                                            "minutes",
-                                            style: CardTileText.text.copyWith(fontSize: 14),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
-                                      )
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "${widget.recipe.prepTime}",
+                                                style: CardTileText.text.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              Text(
+                                                "minutes",
+                                                style: CardTileText.text.copyWith(fontSize: 14),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          )
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  color: RecipeBackgroundLight.withOpacity(0.6),
-                  borderRadius: BorderRadius.all(Radius.circular(20))
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "STEPS",
-                          style: CardTileText.questionTile.copyWith(fontSize: 20, color: RecipeBackground,
-//                              shadows: [Shadow(offset: Offset(0.0, 1), blurRadius: 5, color: Colors.white,),]
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ],
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height-250,
-                    width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: widget.recipe.recp.length+1,
-                      itemBuilder: (context, index) {
-                        if(index == widget.recipe.recp.length)
-                          return Container(height: 85,);
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Card(
-                            elevation: 0.5,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0),
-                              child: ListTile(
-                                leading: Text("${index+1}.", style: CardTileText.text,),
-                                title: Text(widget.recipe.recp[index], style: CardTileText.text,),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: RecipeBackgroundLight.withOpacity(0.6),
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "STEPS",
+                              style: CardTileText.questionTile.copyWith(fontSize: 20, color: RecipeBackground,
+//                              shadows: [Shadow(offset: Offset(0.0, 1), blurRadius: 5, color: Colors.white,),]
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
+                        ],
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height-250,
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          physics: BouncingScrollPhysics(),
+                          itemCount: widget.recipe.recp.length+1,
+                          itemBuilder: (context, index) {
+                            if(index == widget.recipe.recp.length)
+                              return Container(height: 85,);
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Card(
+                                elevation: 0.5,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                  child: ListTile(
+                                    leading: Text("${index+1}.", style: CardTileText.text,),
+                                    title: Text(widget.recipe.recp[index], style: CardTileText.text,),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
-          ],
+                )
+              ],
+            ),
+          ),
         ),
+          Align(
+            alignment: Alignment.center,
+            child: ConfettiWidget(
+              confettiController: _controllerCenter,
+              blastDirectionality: BlastDirectionality.explosive, // don't specify a direction, blast randomly
+              emissionFrequency: 0.2,
+              shouldLoop: false, // start again as soon as the animation is finished
+              maxBlastForce: 21,
+              minBlastForce: 20,
+              maximumSize: Size(30, 30),
+              colors: const [
+                Colors.green,
+                Colors.blue,
+                Colors.pink,
+                Colors.orange,
+                Colors.purple
+              ], // manually specify the colors to be used
+              createParticlePath: drawStar, // define a custom shape/path.
+            ),
+          ),
+        ]
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
+          if(widget.inArchive) return;
+          _controllerCenter.play();
           FirebaseFirestore.instance.collection('users').doc('${obj.name}').collection('recipes')
-              .doc('${widget.recipe.id}').set({
-            'name': widget.recipe.name,
-            'recp': widget.recipe.recp,
-            'prepTime': widget.recipe.prepTime,
-            'level': widget.recipe.level
+              .doc('${widget.recipe.id}').set(widget.recipe.recipeMap);
+          setState(() {
+            widget.inArchive = true;
           });
           _detailPageRecipes.currentState.showSnackBar(
               SnackBar(
