@@ -206,7 +206,7 @@ class _DetailPageRecipesState extends State<DetailPageRecipes> {
                               padding: const EdgeInsets.symmetric(vertical: 4.0),
                               child: ListTile(
                                 leading: Text("${index+1}.", style: CardTileText.text,),
-                                subtitle: Text(widget.recipe.recp[index]),
+                                title: Text(widget.recipe.recp[index], style: CardTileText.text,),
                               ),
                             ),
                           ),

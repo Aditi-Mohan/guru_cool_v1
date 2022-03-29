@@ -88,20 +88,32 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 18.0, left: 18.0, bottom: 6.0),
-              child: Row(
-                children: [
-                  Text("DETAILS", style: CardTileText.questionTile.copyWith(fontSize: 24, color: ActivityBackground,),),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: Container(
-                child: Text(widget.activity.deets, style: DetailPageText.content),
+                decoration: BoxDecoration(
+                  border: Border(left: BorderSide(color: ActivityBackground, width: 10,)),
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 18.0, left: 18.0, bottom: 6.0),
+                      child: Row(
+                        children: [
+                          Text("DETAILS", style: CardTileText.questionTile.copyWith(fontSize: 20, color: ActivityBackground,),),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Container(
+                        child: Text(widget.activity.deets, style: DetailPageText.content),
+                      ),
+                    ),
+                    Container(height: 70,),
+                  ],
+                ),
               ),
             ),
-            Container(height: 70,)
 //            Card(
 //              shadowColor: HomepageBackground,
 //              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),

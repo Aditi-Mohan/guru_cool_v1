@@ -23,7 +23,7 @@ class Recipe {
     print("here");
     this.id = id;
     this.name = obj["name"];
-    print(obj["prepTime"]);
+//    print(obj["prepTime"]);
     this.prepTime = obj["prepTime"].toInt();
     this.level = obj["level"].toDouble();
     List<String> r  = List<String>.from(obj["recp"]);

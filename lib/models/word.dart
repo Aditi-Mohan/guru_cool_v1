@@ -6,7 +6,7 @@ class Word {
   String word;
   String pronunciation;
   String meaning;
-  String sentence;
+  List<String> sentence;
 
   Map<String, dynamic> get wordMap {
     Map<String, dynamic> obj = {
@@ -24,7 +24,8 @@ class Word {
     this.word = obj["word"];
     this.pronunciation = obj["pronunciation"];
     this.meaning = obj["meaning"];
-    this.sentence = obj["sentence"];
+    List<String> r  = List<String>.from(obj["sentence"]);
+    this.sentence = r;
   }
 }
 
