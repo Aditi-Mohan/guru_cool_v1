@@ -4,9 +4,9 @@ import '/commons/user.dart';
 class Recipe {
   String id;
   String name;
-  String prepTime;
+  int prepTime;
   double level;
-  String recp;
+  List<String> recp;
 
   Map<String, dynamic> get recipeMap {
     Map<String, dynamic> recp = {
@@ -20,11 +20,14 @@ class Recipe {
   }
 
   Recipe.fromMap(Map<String, dynamic> obj, String id) {
+    print("here");
     this.id = id;
     this.name = obj["name"];
-    this.prepTime = obj["prepTime"];
+    print(obj["prepTime"]);
+    this.prepTime = obj["prepTime"].toInt();
     this.level = obj["level"].toDouble();
-    this.recp = obj["recp"];
+    List<String> r  = List<String>.from(obj["recp"]);
+    this.recp = r;
   }
 }
 

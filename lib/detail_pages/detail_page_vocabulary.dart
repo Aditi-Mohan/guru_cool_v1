@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gurucoolv1/pages/vocabulary.dart';
 import '/models/word.dart';
 import '/commons/theme.dart';
 import '/commons/user.dart';
@@ -23,6 +24,31 @@ class _DetailPageVocabularyState extends State<DetailPageVocabulary> {
 
   @override
   Widget build(BuildContext context) {
+    Widget body = Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+//              height: 111,
+              width: MediaQuery.of(context).size.width,
+              color: VocabularyBackgroundLight,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(height: 50,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Text(widget.word.word.toUpperCase(), style: CardTileText.heading, textAlign: TextAlign.center,),
+                  ),
+                  Container(height: 10,)
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    return body;
     return Scaffold(
       key: _detailPageVocabulary,
       appBar: AppBar(

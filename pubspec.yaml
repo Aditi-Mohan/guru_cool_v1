@@ -28,6 +28,7 @@ dependencies:
   firebase_messaging: ^11.2.11
   circular_check_box: ^1.0.4
   firebase_core: ^1.13.1
+  percent_indicator: ^4.0.0
 
 dev_dependencies:
   flutter_test:

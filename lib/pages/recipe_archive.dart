@@ -57,11 +57,11 @@ class _RecipeArchiveState extends State<RecipeArchive> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Icon(Icons.alarm, size: 18, color: ReminderBackground,),
-                                    Text(" ${recipes[index].prepTime}",
+                                    Text(" ${recipes[index].prepTime} minutes",
                                       style: CardTileText.text,),
                                   ],
                                 ),
-                                Text("Difficulty Level: ${recipes[index].level}",
+                                Text("Difficulty: ${recipes[index].level}",
                                   style: CardTileText.text,)
                               ],
                             ),
