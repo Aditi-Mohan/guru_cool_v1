@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gurucoolv1/pages/home_page.dart';
 import '/commons/collapsing_navigation_drawer.dart';
 import '/commons/theme.dart';
 import '/commons/user.dart';
@@ -16,27 +17,29 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("YOUR PROFILE", style: AppBarText.page,),
-        backgroundColor: Colors.blueGrey,
+//        backgroundColor: Colors.blueGrey,
       ),
       drawer: CollapsingNavigationDrawer(currSelected: currSelectedCollapsingNavBar,),
-      backgroundColor: Colors.white70,
+//      backgroundColor: Colors.white70,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Icon(Icons.account_circle, size: 250, color: selectedColor,),
+          Icon(Icons.account_circle, size: 250, color: HomepageBackgroundLight,),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("USERNAME: ${obj.name}", style: TextStyle(color: selectedColor, fontWeight: FontWeight.w900, fontSize: 25.0)),
+                Text("Username: ", style: TextStyle(color: selectedColor, fontSize: 20.0)),
+                Text(obj.name, style: TextStyle(color: selectedColor, fontWeight: FontWeight.w900, fontSize: 25.0)),
               ],
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
+        elevation: 0,
           onPressed: () async {
             setState(() {
               currSelectedCollapsingNavBar = 0;

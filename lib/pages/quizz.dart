@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:gurucoolv1/pages/home_page.dart';
 import 'package:gurucoolv1/pages/quizz_finish_screen.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import '/commons/user.dart';
@@ -153,7 +154,16 @@ class _QuizzState extends State<Quizz> {
               ),
             );
           }
-          else return CircularProgressIndicator();
+          else return Center(
+              child: Container(
+                height: MediaQuery.of(context).size.width-100,
+                width: MediaQuery.of(context).size.width-100,
+                child: CircularProgressIndicator(
+                  strokeWidth: 5,
+                  color: HomepageBackgroundLight,
+                )
+              )
+          );
         },
       ),
     );
