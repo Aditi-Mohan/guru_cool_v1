@@ -32,93 +32,97 @@ class _RemindersState extends State<Reminders> {
         padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
         child: Column(
           children: <Widget>[
-            Container(
+            Card(
+              semanticContainer: true,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              child: Container(
 //              color: ReminderBackgroundLight,
-              child:
-              FutureBuilder<Activity>(
-                  future: getTodaysActivity(),
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.done) {
-                      Activity task = snapshot.data;
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (
-                              context) =>
-                              DetailPageActivities(activity: task, inArchive: false,)));
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width-10,
-                          decoration: BoxDecoration(
-                              color: HomepageBackgroundLight,
-                              borderRadius: BorderRadius.all(Radius.circular(10.0))
-                          ),
-                          child: Stack(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width-10,
-                                child: ClipRect(
-                                  child: Align(
-                                    alignment: Alignment.bottomCenter,
-                                    heightFactor: 0.8,
-                                    child: Image.asset("assets/scenery.png"),
+                child:
+                FutureBuilder<Activity>(
+                    future: getTodaysActivity(),
+                    builder: (context, snapshot) {
+                      if(snapshot.connectionState == ConnectionState.done) {
+                        Activity task = snapshot.data;
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (
+                                context) =>
+                                DetailPageActivities(activity: task, inArchive: false,)));
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width-10,
+                            decoration: BoxDecoration(
+                                color: HomepageBackgroundLight,
+                                borderRadius: BorderRadius.all(Radius.circular(10.0))
+                            ),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width-10,
+                                  child: ClipRect(
+                                    child: Align(
+                                      alignment: Alignment.bottomCenter,
+                                      heightFactor: 0.8,
+                                      child: Image.asset("assets/scenery.png"),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                left: 10,
-                                top: 10,
-                                child: Container(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(right: 8.0),
-                                            child: Icon(Icons.lightbulb_outline, color: Colors.white,),
-                                          ),
-                                          Text("Today\'s Activity", style: AppBarText.page,),
-                                        ],
-                                      ),
-                                      Builder(
-                                          builder: (context) {
-                                            if (snapshot.connectionState == ConnectionState.done) {
-                                              return Container(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Text("${task.id}",
-                                                    style: ListTileText.white.copyWith(fontWeight: FontWeight.bold, color: Colors.white, shadows: [Shadow(
-                                                      offset: Offset(0.0, 1),
-                                                      blurRadius: 5,
-                                                      color: HomepageBackground,
-                                                    ),]),),
-                                                ),
-                                              );
+                                Positioned(
+                                  left: 10,
+                                  top: 10,
+                                  child: Container(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 8.0),
+                                              child: Icon(Icons.lightbulb_outline, color: Colors.white,),
+                                            ),
+                                            Text("Today\'s Activity", style: AppBarText.page,),
+                                          ],
+                                        ),
+                                        Builder(
+                                            builder: (context) {
+                                              if (snapshot.connectionState == ConnectionState.done) {
+                                                return Container(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Text("${task.id}",
+                                                      style: ListTileText.white.copyWith(fontWeight: FontWeight.bold, color: Colors.white, shadows: [Shadow(
+                                                        offset: Offset(0.0, 1),
+                                                        blurRadius: 5,
+                                                        color: HomepageBackground,
+                                                      ),]),),
+                                                  ),
+                                                );
+                                              }
+                                              else {
+                                                return Container(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Text("Loading...",
+                                                      style: ListTileText.white,),
+                                                  ),
+                                                );
+                                              }
                                             }
-                                            else {
-                                              return Container(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Text("Loading...",
-                                                    style: ListTileText.white,),
-                                                ),
-                                              );
-                                            }
-                                          }
-                                      ),
-                                    ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      }
+                      else return Container();
                     }
-                    else return Container();
-                  }
-              ),
+                ),
 //              FutureBuilder<Activity>(
 //                future: getTodaysActivity(),
 //                builder: (context, snapshot) {
@@ -140,6 +144,7 @@ class _RemindersState extends State<Reminders> {
 //                  }
 //                },
 //              ),
+              ),
             ),
             Container(height: 10,),
             FutureBuilder<List<Reminder>>(

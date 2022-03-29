@@ -152,7 +152,7 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24.0),
                           child: Container(
-                            child: Text(widget.activity.deets, style: DetailPageText.content),
+                            child: Text(widget.activity.deets, style: CardTileText.text,),
                           ),
                         ),
                         Container(height: 70,),
@@ -235,10 +235,10 @@ class _DetailPageActivitiesState extends State<DetailPageActivities> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Icon(Icons.thumb_up, color: ActivityBackground, size: 16,),
-                          ),
+//                          Padding(
+//                            padding: const EdgeInsets.all(3.0),
+//                            child: Icon(Icons.thumb_up, color: ActivityBackground, size: 16,),
+//                          ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: Text("Added to Archive", style: TextStyle(color: ActivityBackground, fontSize: 16.0, fontStyle: FontStyle.italic, fontWeight: FontWeight.w600),),

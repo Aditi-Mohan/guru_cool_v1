@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gurucoolv1/commons/theme.dart';
 import 'pages/home_page.dart';
 import 'commons/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,13 +33,24 @@ class _LogInPageState extends State<LogInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("LOG IN"),
+      appBar: AppBar(
+        title: Text("LOG IN"),
+        elevation: 0,
       ),
-      body: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage("assets/background.jpg"), fit: BoxFit.cover),
+      body: Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+//                image: DecorationImage(image: AssetImage("assets/scenery.png"), fit: BoxFit.fitWidth),
+//              color: HomepageBackgroundLight,
+              ),
+              child: Image.asset("assets/scenery.png", fit: BoxFit.fitWidth,),
             ),
+          ),
+          Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -49,9 +61,9 @@ class _LogInPageState extends State<LogInPage> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text("WELCOME", style: TextStyle(
-                              color: Colors.lightBlue,
-                              fontSize: 40.0,
-                              fontFamily: 'FFF',
+                            color: Colors.lightBlue,
+                            fontSize: 40.0,
+                            fontFamily: 'FFF',
                           ),),
                         ),
                         Text("to", style: TextStyle(
@@ -62,9 +74,9 @@ class _LogInPageState extends State<LogInPage> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text("GuruCool", style: TextStyle(
-                              color: Colors.lightBlue,
-                              fontSize: 50.0,
-                              fontFamily: 'Alpha',
+                            color: Colors.lightBlue,
+                            fontSize: 40.0,
+                            fontFamily: 'Alpha',
                           ),),
                         ),
                       ]
@@ -91,8 +103,69 @@ class _LogInPageState extends State<LogInPage> {
                 ),
               ],
             ),
-          ),
-        ),
+          )
+        ],
+      ),
+//      Center(
+//          child: Container(
+//            decoration: BoxDecoration(
+//              image: DecorationImage(image: AssetImage("assets/scenery.png"), fit: BoxFit.fitWidth),
+////              color: HomepageBackgroundLight,
+//            ),
+//            child: Column(
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              children: <Widget>[
+//                Padding(
+//                  padding: const EdgeInsets.all(8.0),
+//                  child: Column(
+//                      children: <Widget>[
+//                        Padding(
+//                          padding: const EdgeInsets.all(8.0),
+//                          child: Text("WELCOME", style: TextStyle(
+//                              color: Colors.lightBlue,
+//                              fontSize: 40.0,
+//                              fontFamily: 'FFF',
+//                          ),),
+//                        ),
+//                        Text("to", style: TextStyle(
+//                          color: Colors.lightBlue,
+//                          fontSize: 30.0,
+//                          fontFamily: 'FFF',
+//                        ),),
+//                        Padding(
+//                          padding: const EdgeInsets.all(8.0),
+//                          child: Text("GuruCool", style: TextStyle(
+//                              color: Colors.lightBlue,
+//                              fontSize: 40.0,
+//                              fontFamily: 'Alpha',
+//                          ),),
+//                        ),
+//                      ]
+//                  ),
+//                ),
+//                Padding(
+//                  padding: const EdgeInsets.all(10.0),
+//                  child: TextField(
+//                    controller: _name,
+//                    decoration: InputDecoration(
+//                      labelText: "Enter Name: ",
+//                      hintText: "Eg: Aditi",
+//                      labelStyle: TextStyle(
+//                          color: Colors.black,
+//                          fontSize: 20.0,
+//                          fontWeight: FontWeight.w900
+//                      ),
+//                      border: OutlineInputBorder(
+//                        borderRadius: BorderRadius.circular(5.0),
+//                        borderSide: BorderSide(color: Colors.blue),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
+//        ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           if(_name.text.isNotEmpty) {
