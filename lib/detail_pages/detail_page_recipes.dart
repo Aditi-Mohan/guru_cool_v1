@@ -308,11 +308,11 @@ class _DetailPageRecipesState extends State<DetailPageRecipes> {
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: Icon(Icons.thumb_up, color: RecipeBackground, size: 20,),
+                            child: Icon(Icons.thumb_up, color: RecipeBackground, size: 16,),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: Text("Added to Archive", style: TextStyle(color: RecipeBackground, fontSize: 20.0, fontStyle: FontStyle.italic, fontWeight: FontWeight.w600),),
+                            child: Text("Added to Archive", style: TextStyle(color: RecipeBackground, fontSize: 16.0, fontStyle: FontStyle.italic, fontWeight: FontWeight.w600),),
                           )
                         ],
                       ),

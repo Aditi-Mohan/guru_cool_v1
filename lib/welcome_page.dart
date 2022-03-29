@@ -14,7 +14,7 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow,
+//      backgroundColor: Colors.yellow,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -28,7 +28,7 @@ class _WelcomePageState extends State<WelcomePage> {
           children: <Widget>[
             Text("GURUCOOL", style: TextStyle(
               color: Colors.lightBlue,
-              fontSize: 45.0,
+              fontSize: 32.0,
               fontFamily: 'Alpha',
             ),),
             Text("Holistic Learning", style: TextStyle(
@@ -38,10 +38,11 @@ class _WelcomePageState extends State<WelcomePage> {
               fontFamily: 'Amatic',
             ),),
             Padding(
-              padding: const EdgeInsets.all(50.0),
+              padding: const EdgeInsets.symmetric(vertical: 30.0),
               child: RaisedButton(
+                color: Colors.lightBlue,
                 elevation: 5.0,
-                color: Color.fromRGBO(255, 204, 153, 1),
+//                color: Color.fromRGBO(255, 204, 153, 1),
                 child: Hero(
                   tag: 'entery',
                   child: Row(
@@ -52,9 +53,9 @@ class _WelcomePageState extends State<WelcomePage> {
                           fontSize: 20,
                           fontFamily: 'Alpha',
                           fontWeight: FontWeight.w600,
-                          color: Colors.lightBlue,
+                          color: Colors.white
                         ),),
-                        Icon(Icons.arrow_forward),
+                        Icon(Icons.arrow_forward, color: Colors.white,),
                       ],
                     ),
                 ),

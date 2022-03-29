@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gurucoolv1/pages/home_page.dart';
+import 'package:gurucoolv1/pages/quizz.dart';
 import '/models/activity.dart';
 import '/commons/archive_view.dart';
 import '/commons/collapsing_navigation_drawer.dart';
@@ -41,7 +42,7 @@ class _NewHomePageState extends State<NewHomePage> {
     await Future.delayed(Duration(seconds: 2));
     _HomePage.currentState.showSnackBar(
         SnackBar(
-          content: Text("Welcome Back ${obj.name.toUpperCase()} !", style: TextStyle(color: HomepageBackground, fontSize:25.0, fontWeight: FontWeight.w900, fontFamily: 'Alpha'),),
+          content: Text("Welcome Back ${obj.name.toUpperCase()} !", style: TextStyle(color: HomepageBackground, fontSize:18.0, fontWeight: FontWeight.w900, fontFamily: 'Alpha'),),
         )
     );
   }
@@ -240,72 +241,77 @@ class _NewHomePageState extends State<NewHomePage> {
                           context) =>
                           DetailPageActivities(activity: task, inArchive: false,)));
                     },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width-10,
-                      decoration: BoxDecoration(
-                        color: HomepageBackgroundLight,
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                      ),
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width-10,
-                            child: ClipRect(
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                heightFactor: 0.8,
-                                child: Image.asset("assets/scenery.png"),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                              left: 10,
-                              top: 10,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(right: 8.0),
-                                          child: Icon(Icons.lightbulb_outline, color: Colors.white,),
-                                        ),
-                                        Text("Today\'s Activity", style: AppBarText.page,),
-                                      ],
-                                    ),
-                                    Builder(
-                                        builder: (context) {
-                                          if (snapshot.connectionState == ConnectionState.done) {
-                                            return Container(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Text("${task.id}",
-                                                  style: ListTileText.white.copyWith(fontWeight: FontWeight.bold, color: Colors.white, shadows: [Shadow(
-                                                    offset: Offset(0.0, 1),
-                                                    blurRadius: 5,
-                                                    color: HomepageBackground,
-                                                  ),]),),
-                                              ),
-                                            );
-                                          }
-                                          else {
-                                            return Container(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Text("Loading...",
-                                                  style: ListTileText.white,),
-                                              ),
-                                            );
-                                          }
-                                        }
-                                    ),
-                                  ],
+                    child: Card(
+                      semanticContainer: true,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width-10,
+                        decoration: BoxDecoration(
+                          color: HomepageBackgroundLight,
+                          borderRadius: BorderRadius.all(Radius.circular(10.0))
+                        ),
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width-10,
+                              child: ClipRect(
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  heightFactor: 0.8,
+                                  child: Image.asset("assets/scenery.png"),
                                 ),
                               ),
-                          ),
-                        ],
+                            ),
+                            Positioned(
+                                left: 10,
+                                top: 10,
+                                child: Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 8.0),
+                                            child: Icon(Icons.lightbulb_outline, color: Colors.white,),
+                                          ),
+                                          Text("Today\'s Activity", style: AppBarText.page,),
+                                        ],
+                                      ),
+                                      Builder(
+                                          builder: (context) {
+                                            if (snapshot.connectionState == ConnectionState.done) {
+                                              return Container(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Text("${task.id}",
+                                                    style: ListTileText.white.copyWith(fontWeight: FontWeight.bold, color: Colors.white, shadows: [Shadow(
+                                                      offset: Offset(0.0, 1),
+                                                      blurRadius: 5,
+                                                      color: HomepageBackground,
+                                                    ),]),),
+                                                ),
+                                              );
+                                            }
+                                            else {
+                                              return Container(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Text("Loading...",
+                                                    style: ListTileText.white,),
+                                                ),
+                                              );
+                                            }
+                                          }
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -339,8 +345,128 @@ class _NewHomePageState extends State<NewHomePage> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Quizz()));
+                },
+                child: Card(
+                  semanticContainer: true,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                  child:Container(
+                    width: MediaQuery.of(context).size.width-10,
+                    decoration: BoxDecoration(
+//                      color: HomepageBackgroundLight,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                    ),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width-10,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(10))
+                          ),
+                          child: ClipRect(
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              heightFactor: 0.9,
+                              child: Image.asset("assets/quizz.jpg"),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width-10,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Colors.black54.withOpacity(0.075), Colors.transparent.withOpacity(0)],
+                              stops: [0.5, 0.9],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter
+                            )
+                          ),
+                        ),
+                        Positioned(
+                          left: 10,
+                          top: 10,
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Test Your Vocabulary", style: AppBarText.page,),
+                                Container(
+                                  width: 2*(MediaQuery.of(context).size.width/3),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text("Take randomised quizz on the words you have learnt",
+                                      style: ListTileText.white.copyWith(fontWeight: FontWeight.bold, color: Colors.white,),),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget fun() {
+    return Container(
+      width: MediaQuery.of(context).size.width-10,
+      decoration: BoxDecoration(
+//                      color: HomepageBackgroundLight,
+          borderRadius: BorderRadius.all(Radius.circular(10.0))
+      ),
+      child: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width-10,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10))
+            ),
+            child: ClipRect(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                heightFactor: 0.8,
+                child: Image.asset("assets/quizz.jpg"),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 10,
+            top: 10,
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Test Your Vocabulary", style: AppBarText.page,),
+                  Container(
+                    width: 2*(MediaQuery.of(context).size.width/3),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Take randomised quizz on the words you have learnt",
+                        style: ListTileText.white.copyWith(fontWeight: FontWeight.bold, color: Colors.white, shadows: [Shadow(
+                          offset: Offset(0.0, 1),
+                          blurRadius: 5,
+                          color: HomepageBackground,
+                        ),]),),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

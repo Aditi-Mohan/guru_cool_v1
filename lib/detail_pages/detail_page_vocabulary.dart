@@ -284,11 +284,11 @@ class _DetailPageVocabularyState extends State<DetailPageVocabulary> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(3.0),
-                              child: Icon(Icons.thumb_up, color: VocabularyBackground, size: 20,),
+                              child: Icon(Icons.thumb_up, color: VocabularyBackground, size: 16,),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(3.0),
-                              child: Text("Added to Archive", style: TextStyle(color: VocabularyBackground, fontSize: 20.0, fontStyle: FontStyle.italic, fontWeight: FontWeight.w600),),
+                              child: Text("Added to Archive", style: TextStyle(color: VocabularyBackground, fontSize: 16.0, fontStyle: FontStyle.italic, fontWeight: FontWeight.w600),),
                             )
                           ],
                         ),
