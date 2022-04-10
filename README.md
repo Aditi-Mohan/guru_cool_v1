@@ -26,7 +26,7 @@ _**The app aims to help kids stay active, creative, and inculcate healthy habits
 
 ### Vocabulary
 _Aims to expand the user's grasp of English words, improve grammar and build a strong vocabulary._
-- The app contains a comprehensive list of words to which new words are added frequently.
+- The app contains a comprehensive list of words which is updated frequently.
 - The examples teach you the various contexts within which the words are used and their different forms - singular, plural, adjective, noun, verb, tenses, etc.
 - Provides a breakdown of the pronunciation and helps build spoken vocabulary.
 - Once learned, the user can add the word to their Archive to include in the subsequent Quizzes.
@@ -38,7 +38,7 @@ _Coming Soon:_
 
 ### Activities
 _Aims to inculcate creativity and introspection and help explore different disciplines._
-- The app contains a comprehensive list of activities to which new activities are added frequently.
+- The app contains a comprehensive list of activities which is updated frequently.
 - Each activity gives a broad theme to explore and lays out some pointers to get started and build on.
 - Once completed, the user can add the activity to their Archive to revisit later.
 
@@ -49,7 +49,7 @@ _Coming Soon:_
 
 ### Recipes
 _Aims to build healthy, sustainable eating habits with fun, easy to execute recipes._
-- The app contains a comprehensive list of recipes to which new recipes are added frequently.
+- The app contains a comprehensive list of recipes which is updated frequently.
 - Each recipe provides a step-by-step guide for execution.
 - An overview of the difficulty and time required is provided to help the user choose a recipe.
 
@@ -81,11 +81,11 @@ Questions are based on the definition of a word and using the word correctly in 
 
 ### Reminders
 
-_To build Daily Habits._
+_To build Daily Habits and exercise the power of consistency._
 <br>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://github.com/Aditi-Mohan/guru_cool_v1/blob/master/readme_images/raw/10.png" data-canonical-src="https://github.com/Aditi-Mohan/guru_cool_v1/blob/master/readme_images/raw/10.png" width="250" height="400" />
+<img src="https://github.com/Aditi-Mohan/guru_cool_v1/blob/master/readme_images/raw/10.png" data-canonical-src="https://github.com/Aditi-Mohan/guru_cool_v1/blob/master/readme_images/raw/10.png" width="225" height="400" />
 
 <br>
 
