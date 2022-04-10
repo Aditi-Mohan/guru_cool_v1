@@ -2,9 +2,23 @@
  
 <p align="center"> <em>A HOLISTIC LEARNING APP FOR CHILDREN</em> </p>
 
-*The app aims to help kids stay active, creative, and inculcate healthy habits using fun activities with a central focus on character development. Rather than the "teach the fish to climb a tree" approach.*
- 
+_**The app aims to help kids stay active, creative, and inculcate healthy habits using fun activities with a central focus on character development. Rather than the "teach the fish to climb a tree" approach.**_
+ <br>
+ <br>
+ The user can scan through a large selection of Activities to do, Words to learn and Recipes to try and Receive _**Notifications**_ when new content is released
 ![](https://github.com/Aditi-Mohan/guru_cool_v1/blob/master/readme_images/edited/cover.png)
+
+<br>
+
+## Table of contents
+
+- [Overview](#interfaces)
+- [Setup](#setup)
+- [Build and run](#build-and-run)
+- [Contributing](#contributing)
+- [Copyright and License](#license)
+
+<br>
 
 ## Interfaces
 
@@ -57,7 +71,7 @@ _Archived words, activities, and recipes are also differentiated in the explore 
 
 <br>
 
-## Quizz
+### Quizz
 
 _To aid retention using the principle of spaced repetition._
 
@@ -65,7 +79,7 @@ A randomized quiz of atmost 10 questions is generated from the words added to th
 Questions are based on the definition of a word and using the word correctly in a sentence.
 ![](https://github.com/Aditi-Mohan/guru_cool_v1/blob/master/readme_images/edited/test.png)
 
-## Reminders
+### Reminders
 
 _To build Daily Habits._
 <br>
@@ -73,26 +87,27 @@ _To build Daily Habits._
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="https://github.com/Aditi-Mohan/guru_cool_v1/blob/master/readme_images/raw/10.png" data-canonical-src="https://github.com/Aditi-Mohan/guru_cool_v1/blob/master/readme_images/raw/10.png" width="250" height="400" />
 
+<br>
 
-<!-- Screens             |     
-:-------------------------:|:-------------------------:
-![](https://github.com/Aditi-Mohan/guru_cool_v1/blob/master/readme_images/edited/screens.png)  |  hghgjhgjhggjgjh -->
-
-# Setup
+## Setup
 * Uses Flutter version  `2.10.1`
 * Uses Dart version `2.16.1`
-<!-- Add package dependencies -->
+* Core dependencies:
+   * shared_preferences: 2.0.13
+   * cloud_firestore: ^3.1.10
+   * firebase_messaging: ^11.2.11
+   * firebase_core: ^1.13.1
 
-# Build and run
+## Build and run
 * If this is your first project, install [flutter](https://flutter.dev/docs/get-started/install)
 * Clone this project using the url or ssh and cd into the cloned directory
 * Get the dependencies with `flutter pub get`
 * Run the app in debug mode with `flutter run`
 
-# Contributing
+## Contributing
 * You can contirbute to existing [issues](https://github.com/Aditi-Mohan/guru_cool_v1/issues)
-* Report Bugs [here](https://github.com/Aditi-Mohan/guru_cool_v1/issues/new?assignees=&labels=&template=bug_report.md&title=)
-* Create Feature Requests [here](https://github.com/Aditi-Mohan/guru_cool_v1/issues/new?assignees=&labels=&template=feature_request.md&title=)
+* Report Bugs [here](https://github.com/Aditi-Mohan/guru_cool_v1/issues/new?template=bug_report.md)
+* Create Feature Requests [here](https://github.com/Aditi-Mohan/guru_cool_v1/issues/new?template=feature_request.md)
 
-# License
+## License
 Code released under the [MIT License](https://github.com/Aditi-Mohan/guru_cool_v1/blob/master/LICENSE).
