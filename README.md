@@ -93,10 +93,10 @@ _To build Daily Habits and exercise the power of consistency._
 * Uses Flutter version  `2.10.1`
 * Uses Dart version `2.16.1`
 * Core dependencies:
-   * shared_preferences: 2.0.13
-   * cloud_firestore: ^3.1.10
-   * firebase_messaging: ^11.2.11
-   * firebase_core: ^1.13.1
+   * shared_preferences: `2.0.13`
+   * cloud_firestore: `^3.1.10`
+   * firebase_messaging: `^11.2.11`
+   * firebase_core: `^1.13.1`
 
 ## Build and run
 * If this is your first project, install [flutter](https://flutter.dev/docs/get-started/install)
