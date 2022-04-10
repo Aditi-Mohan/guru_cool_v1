@@ -28,5 +28,10 @@
 * Get the dependencies with `flutter pub get`
 * Run the app in debug mode with `flutter run`
 
+# Contributing
+* You can contirbute to existing [issues](https://github.com/Aditi-Mohan/guru_cool_v1/issues)
+* Report Bugs [here](https://github.com/Aditi-Mohan/guru_cool_v1/issues/new?assignees=&labels=&template=bug_report.md&title=)
+* Create Feature Requests [here](https://github.com/Aditi-Mohan/guru_cool_v1/issues/new?assignees=&labels=&template=feature_request.md&title=)
+
 # License
 Code released under the [MIT License](https://github.com/Aditi-Mohan/guru_cool_v1/blob/master/LICENSE).
